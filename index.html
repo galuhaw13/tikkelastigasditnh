@@ -18,8 +18,8 @@
         }
         .content-andika {
             font-family: 'Andika', sans-serif;
-            line-height: 1.5;
-            font-size: 1.12rem;
+            line-height: 1.6;
+            font-size: 1.15rem;
         }
         .bounce-gentle {
             animation: bounce 2s infinite;
@@ -101,6 +101,14 @@
             { chapter: 'Bab 4', title: 'Pengelolaan Berkas Digital', points: ['Perbedaan mendasar antara File dokumen dan Folder penyimpanan.', 'Perintah dasar berkas: Save, Save As, Open, Rename, Copy, Cut, Paste.', 'Aturan penting saat mengganti nama file (tidak boleh sedang dibuka).'] },
             { chapter: 'Bab 5', title: 'Algoritma Sederhana', points: ['Pengertian algoritma sebagai urutan langkah logis dan runtut.', 'Contoh penerapan algoritma dalam kegiatan sehari-hari (Mencuci Tangan).', 'Pengertian Debugging untuk memperbaiki urutan langkah yang keliru.'] },
             { chapter: 'Bab 6', title: 'Microsoft Paint', points: ['Fungsi aplikasi Microsoft Paint untuk seni digital.', 'Fungsi ikon Tool utama: Pencil, Eraser, Fill with Color, Text, Brushes.'] }
+        ];
+
+        const DEFAULT_LEADERBOARD = [
+            { name: "Ahmad Haidar Naafi'", class: "3 A", score: 1450, avatar: "🐱" },
+            { name: "Bilqis Qurotaayyun", class: "3 B", score: 1380, avatar: "🐼" },
+            { name: "Faaza Mukti Annadhif", class: "3 A", score: 1300, avatar: "🦊" },
+            { name: "Aisyah Humairah", class: "3 C", score: 1250, avatar: "🐰" },
+            { name: "Muhammad Al-Fatih", class: "3 B", score: 1200, avatar: "🦁" }
         ];
 
         const DEFAULT_QUESTIONS = {
@@ -197,20 +205,18 @@
                 { id: 605, stimulus: "Ikon Huruf A (Text) di Paint berfungsi untuk...", options: ["Menggambar hewan lucu", "Menyisipkan atau mengetik judul tulisan pada lembar gambar", "Menghapus tulisan salah"], answer: 1, explanation: "Text tool digunakan untuk mengetik teks atau judul pada gambar." },
                 { id: 606, stimulus: "Ikon Kuas (Brushes) di Microsoft Paint berfungsi untuk...", options: ["Melukis dengan pilihan bentuk garis kuas yang bermacam-macam", "Mematikan komputer", "Mengetik angka matematika"], answer: 0, explanation: "Brushes digunakan untuk melukis dengan berbagai gaya kuas." },
                 { id: 607, stimulus: "Di mana kita melihat hasil lukisan digital yang sedang kita buat?", options: ["Di atas meja kayu lab", "Di layar monitor", "Di dalam kotak CPU"], answer: 1, explanation: "Hasil lukisan tampil di layar monitor." },
-                { id: 608, stimulus: "Jika kita ingin mewarnai gambar rumah yang tertutup garis dengan warna biru dalam sekali klik, kita menggunakan...", options: ["Pencil", "Eraser", "Fill with Color (Kaleng Cat)"], answer: 2, explanation: "Kaleng cat warna mewarnai bidang tertutup dengan cepat." },
-                { id: 609, stimulus: "Apa yang terjadi jika bidang gambar yang ingin kita warnai dengan kaleng cat ternyata ada garis yang bocor (terbuka)?", options: ["Warna akan tumpah memenuhi seluruh lembar kerja", "Gambar menjadi 3 dimensi", "Aplikasi Paint otomatis tertutup"], answer: 0, explanation: "Jika bidang terbuka, warna cat akan keluar memenuhi seluruh layar." },
-                { id: 610, stimulus: "Bagaimana cara menyusupkan nama kita pada sudut gambar di Paint?", options: ["Menggunakan ikon Text (Huruf A)", "Menggunakan Eraser", "Menggunakan kaleng cat"], answer: 0, explanation: "Gunakan Text tool untuk menulis nama." },
-                { id: 611, stimulus: "Apakah Microsoft Paint termasuk aplikasi perangkat lunak (software)?", options: ["Ya, benar sekali", "Bukan, Paint adalah perangkat keras", "Paint adalah kabel penghubung"], answer: 0, explanation: "Paint adalah software aplikasi." },
-                { id: 612, stimulus: "Manakah alat di Paint yang paling cocok untuk membuat coretan garis halus mirip pensil nyata?", options: ["Pencil", "Fill with Color", "Eraser"], answer: 0, explanation: "Pencil tool membuat garis tipis bebas." },
-                { id: 613, stimulus: "Apakah kita bisa memilih berbagai jenis bentuk kuas pada menu Brushes di Paint?", options: ["Tidak bisa sama sekali", "Bisa, ada banyak pilihan bentuk kuas", "Hanya ada satu jenis kuas saja"], answer: 1, explanation: "Brushes menyediakan berbagai gaya sapuan kuas." },
-                { id: 614, stimulus: "Jika saat menggambar kita salah membuat garis, alat apa yang kita ambil untuk memperbaikinya?", options: ["Eraser (Penghapus)", "Printer", "Keyboard"], answer: 0, explanation: "Eraser digunakan untuk menghapus kesalahan gambar." },
-                { id: 615, stimulus: "Setelah selesai melukis pemandangan gunung di Paint, apa perintah selanjutnya agar gambar tersimpan?", options: ["Save / Simpan file", "Delete file", "Cabut kabel monitor"], answer: 0, explanation: "Kita harus melakukan Save agar gambar tersimpan." }
+                { id: 608, stimulus: "Jika kita ingin mewarnai gambar rumah yang tertutup garis dengan warna biru dalam sekali klik, kita menggunakan...", options: ["Pencil", "Eraser", "Fill with Color (Kaleng Cat)"], answer: 2, explanation: "Fill with Color mewarnai bidang tertutup dengan instan." },
+                { id: 609, stimulus: "Alat di Paint yang digunakan untuk mengetikkan nama siswa di sudut gambar adalah...", options: ["Text (Huruf A)", "Brushes", "Pencil"], answer: 0, explanation: "Ikon Huruf A (Text) digunakan untuk menyisipkan teks." },
+                { id: 610, stimulus: "Apa kegunaan utama dari aplikasi Microsoft Paint?", options: ["Menghitung angka matematika rumit", "Menggambar dan mewarnai secara digital", "Memutar video musik"], answer: 1, explanation: "Paint adalah software untuk melukis dan menggambar digital." },
+                { id: 611, stimulus: "Jika garis gambar terputus saat menggunakan Fill with Color, maka warna akan...", options: ["Keluar memenuhi seluruh layar monitor", "Berubah menjadi hitam pekat", "Hilang selamanya"], answer: 0, explanation: "Bidang harus tertutup rapat; jika bocor, warna akan meluber ke area lain." },
+                { id: 612, stimulus: "Ikon manakah di Paint yang bentuknya menyerupai alat tulis pensil?", options: ["Eraser", "Pencil", "Magnifier"], answer: 1, explanation: "Pencil berikon pensil." },
+                { id: 613, stimulus: "Bagaimana bentuk ikon Eraser di aplikasi Paint?", options: ["Gambar penghapus karet", "Gambar buku tulis", "Gambar kaleng cat"], answer: 0, explanation: "Eraser berikon penghapus." },
+                { id: 614, stimulus: "Manakah tool di Paint yang memiliki banyak pilihan jenis sapuan kuas?", options: ["Brushes", "Text", "Fill with Color"], answer: 0, explanation: "Brushes menyediakan berbagai gaya kuas lukis." },
+                { id: 615, stimulus: "Sebelum mulai melukis di Paint, kita melihat lembar kerja kosong yang disebut...", options: ["Canvas (Kanvas)", "Kotak CPU", "Desktop utama"], answer: 0, explanation: "Canvas adalah area kerja utama untuk menggambar." }
             ]
         };
 
-        const AVATARS = ['👦', '👧', '🐱', '🤖', '⭐', '📚', '🚀', '🎨'];
-
-        // --- LOCAL STORAGE INITIALIZATION ---
+        // --- LOCAL STORAGE INITIALIZATION & SYNC ---
         function initStorage() {
             if (!localStorage.getItem('tik_chapters')) {
                 localStorage.setItem('tik_chapters', JSON.stringify(DEFAULT_CHAPTERS));
@@ -221,1092 +227,1058 @@
             if (!localStorage.getItem('tik_questions')) {
                 localStorage.setItem('tik_questions', JSON.stringify(DEFAULT_QUESTIONS));
             }
-            if (!localStorage.getItem('tik_students')) {
-                const initialStudents = [
-                    { name: "Siswa 1", class: "3A", avatar: "👦", score: 450, history: {} },
-                    { name: "Siswa 2", class: "3B", avatar: "👧", score: 420, history: {} },
-                    { name: "Siswa 1", class: "3A", avatar: "🤖", score: 380, history: {} },
-                    { name: "Siswa 1", class: "3C", avatar: "⭐", score: 350, history: {} }
-                ];
-                localStorage.setItem('tik_students', JSON.stringify(initialStudents));
+            if (!localStorage.getItem('tik_leaderboard')) {
+                localStorage.setItem('tik_leaderboard', JSON.stringify(DEFAULT_LEADERBOARD));
             }
         }
-        initStorage();
 
-        // --- SESSION STATE & ROUTING ---
-        let currentStudent = JSON.parse(sessionStorage.getItem('tik_current_student')) || null;
-        let currentView = sessionStorage.getItem('tik_current_view') || (currentStudent ? 'student_dashboard' : 'login');
-        let currentActiveChapter = null;
-        let activeQuizChapter = null;
-        let quizState = JSON.parse(sessionStorage.getItem('tik_quiz_state')) || {};
-        let studentActiveMenu = sessionStorage.getItem('tik_student_menu') || 'chapters';
-        let adminTab = 'materials';
-        let selectedAdminChapter = 1;
-
-        function saveSession() {
-            if (currentStudent) {
-                sessionStorage.setItem('tik_current_student', JSON.stringify(currentStudent));
-            } else {
-                sessionStorage.removeItem('tik_current_student');
-            }
-            sessionStorage.setItem('tik_current_view', currentView);
-            sessionStorage.setItem('tik_student_menu', studentActiveMenu);
-            sessionStorage.setItem('tik_quiz_state', JSON.stringify(quizState));
+        function getData(key) {
+            initStorage();
+            return JSON.parse(localStorage.getItem(key));
         }
+
+        function saveData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+            showToast("Perubahan berhasil disimpan & disinkronkan!", "success");
+        }
+
+        // --- STATE MANAGEMENT ---
+        let currentUser = JSON.parse(localStorage.getItem('tik_current_user')) || null;
+        let activeTab = localStorage.getItem('tik_active_tab') || 'materi';
+        let currentQuizChapter = null;
+        let currentQuizIndex = 0;
+        let quizAnswersState = JSON.parse(localStorage.getItem('tik_quiz_answers')) || {}; // simpan progres kuis per bab agar tidak hilang saat pindah menu
+        let userScore = currentUser ? currentUser.score : 0;
+
+        // Auto Logout handling (Tab Close vs Refresh)
+        window.addEventListener('beforeunload', (e) => {
+            // Jika refresh, session storage tetap ada, jika tab close total, hapus current user
+            if (!sessionStorage.getItem('is_refreshed')) {
+                localStorage.removeItem('tik_current_user');
+            }
+        });
+        window.addEventListener('load', () => {
+            sessionStorage.setItem('is_refreshed', 'true');
+            initStorage();
+            renderApp();
+            lucide.createIcons();
+        });
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            const bgCol = type === 'success' ? 'bg-emerald-600 text-white' : type === 'error' ? 'bg-rose-600 text-white' : 'bg-amber-500 text-white';
-            toast.className = `pointer-events-auto px-4 py-3 rounded-2xl shadow-xl font-medium flex items-center gap-3 transform translate-y-2 opacity-0 transition-all duration-300 ${bgCol}`;
-            toast.innerHTML = `<span>${type === 'success' ? '🎉' : '⚠️'}</span> <span>${message}</span>`;
+            toast.className = `px-4 py-3 rounded-xl text-white font-medium shadow-lg transition transform duration-300 pointer-events-auto flex items-center gap-2 ${type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'}`;
+            toast.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="w-5 h-5"></i> <span>${message}</span>`;
             container.appendChild(toast);
-            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            lucide.createIcons();
             setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
+                toast.style.opacity = '0';
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
 
-        function render() {
+        // --- ROUTER / RENDER CONTROLLER ---
+        function renderApp() {
             const app = document.getElementById('app');
             app.innerHTML = '';
 
-            if (currentView === 'login') {
-                app.innerHTML = renderLoginScreen();
-            } else if (currentView === 'student_dashboard') {
-                app.innerHTML = renderStudentPortal();
-            } else if (currentView === 'admin_login') {
-                app.innerHTML = renderAdminLoginScreen();
-            } else if (currentView === 'admin_dashboard') {
-                app.innerHTML = renderAdminPortal();
+            if (!currentUser) {
+                renderLoginPortal(app);
+            } else if (currentUser.isAdmin) {
+                renderAdminPortal(app);
+            } else {
+                renderStudentPortal(app);
             }
-
             lucide.createIcons();
         }
 
-        // --- 1. STUDENT LOGIN SCREEN ---
-        function renderLoginScreen() {
-            return `
+        // --- 1. LOGIN / PORTAL PEMBUKA (SISWA & ADMIN) ---
+        function renderLoginPortal(container) {
+            container.innerHTML = `
                 <div class="flex-1 flex items-center justify-center p-4">
-                    <div class="max-w-md w-full bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 border-4 border-amber-300 relative overflow-hidden">
+                    <div class="max-w-md w-full bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 border-4 border-amber-200 text-center relative overflow-hidden">
                         <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-200 rounded-full blur-2xl opacity-50"></div>
                         <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-sky-200 rounded-full blur-2xl opacity-50"></div>
-
-                        <div class="text-center mb-6 relative">
-                            <span class="inline-block text-5xl mb-2 bounce-gentle">💻</span>
-                            <h1 class="text-2xl font-extrabold text-sky-700">PORTAL BELAJAR TIK</h1>
-                            <p class="text-sm font-semibold text-amber-600 mt-1">Kelas 3 SD - SDIT NUR HIDAYAH</p>
-                        </div>
-
-                        <form onsubmit="handleLogin(event)" class="space-y-4 relative">
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-1">Nama Lengkap Siswa:</label>
-                                <input type="text" id="student-name" required placeholder="Contoh: Ahmad Haidar" 
-                                    class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none font-medium">
+                        
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-400 rounded-2xl mx-auto flex items-center justify-center shadow-lg bounce-gentle mb-4 text-white">
+                                <i data-lucide="laptop" class="w-10 h-10"></i>
                             </div>
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-1">Kelas:</label>
-                                <select id="student-class" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none font-medium bg-white">
-                                    <option value="3A">Kelas 3A</option>
-                                    <option value="3B">Kelas 3B</option>
-                                    <option value="3C">Kelas 3C</option>
-                                    <option value="3D">Kelas 3D</option>
-                                </select>
+                            <h1 class="text-2xl font-extrabold text-slate-800">Portal TIK Kelas 3 SD</h1>
+                            <p class="text-slate-600 text-sm mt-1 mb-6">Belajar Komputer Asyik, Seru & Menyenangkan!</p>
+
+                            <!-- Tab Selector (Siswa / Admin) -->
+                            <div class="flex bg-slate-100 p-1 rounded-2xl mb-6">
+                                <button onclick="switchLoginTab('siswa')" id="tab-btn-siswa" class="flex-1 py-2 text-sm font-bold rounded-xl transition bg-white shadow text-amber-700">Siswa Masuk</button>
+                                <button onclick="switchLoginTab('admin')" id="tab-btn-admin" class="flex-1 py-2 text-sm font-bold rounded-xl transition text-slate-500">Portal Guru (Admin)</button>
                             </div>
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">Pilih Avatar:</label>
-                                <div class="grid grid-cols-4 gap-3">
-                                    ${AVATARS.map((av, idx) => `
-                                        <label class="flex items-center justify-center p-3 rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-sky-400 hover:bg-sky-50 transition-all avatar-label ${idx === 0 ? 'border-sky-500 bg-sky-50 ring-2 ring-sky-300' : ''}">
-                                            <input type="radio" name="avatar" value="${av}" ${idx === 0 ? 'checked' : ''} class="sr-only" onchange="selectAvatarUI(this)">
-                                            <span class="text-3xl">${av}</span>
-                                        </label>
-                                    `).join('')}
+
+                            <!-- FORM SISWA -->
+                            <div id="form-siswa" class="space-y-4 text-left">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Lengkap (Nama Islami)</label>
+                                    <input type="text" id="input-nama" placeholder="Contoh: Aisyah Naila Rahma" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-amber-400 focus:outline-none font-medium">
                                 </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kelas</label>
+                                    <select id="input-kelas" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-amber-400 focus:outline-none font-medium bg-white">
+                                        <option value="3 A">Kelas 3 A</option>
+                                        <option value="3 B">Kelas 3 B</option>
+                                        <option value="3 C">Kelas 3 C</option>
+                                        <option value="3 D">Kelas 3 D</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pilih Avatar Lucu</label>
+                                    <div class="grid grid-cols-5 gap-2" id="avatar-grid">
+                                        <!-- Avatars (Tanpa Nama) -->
+                                        <button type="button" onclick="selectAvatar('🐱', this)" class="avatar-option p-3 rounded-xl border-2 border-amber-400 bg-amber-50 text-2xl flex items-center justify-center transition hover:scale-105">🐱</button>
+                                        <button type="button" onclick="selectAvatar('🐼', this)" class="avatar-option p-3 rounded-xl border-2 border-slate-200 bg-white text-2xl flex items-center justify-center transition hover:scale-105">🐼</button>
+                                        <button type="button" onclick="selectAvatar('🦊', this)" class="avatar-option p-3 rounded-xl border-2 border-slate-200 bg-white text-2xl flex items-center justify-center transition hover:scale-105">🦊</button>
+                                        <button type="button" onclick="selectAvatar('🐰', this)" class="avatar-option p-3 rounded-xl border-2 border-slate-200 bg-white text-2xl flex items-center justify-center transition hover:scale-105">🐰</button>
+                                        <button type="button" onclick="selectAvatar('🦁', this)" class="avatar-option p-3 rounded-xl border-2 border-slate-200 bg-white text-2xl flex items-center justify-center transition hover:scale-105">🦁</button>
+                                    </div>
+                                </div>
+                                <button onclick="handleLoginSiswa()" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 transition transform active:scale-95 flex items-center justify-center gap-2 mt-4">
+                                    <span>Mulai Belajar</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                </button>
                             </div>
-                            <button type="submit" class="w-full py-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-900 font-extrabold rounded-2xl shadow-lg transform active:scale-95 transition-all text-lg flex items-center justify-center gap-2 mt-4">
-                                <span>🚀 Masuk Portal Siswa</span>
-                            </button>
-                        </form>
 
-                        <div class="mt-6 text-center border-t border-slate-100 pt-4">
-                            <button onclick="goToAdminLogin()" class="text-xs font-bold text-slate-400 hover:text-sky-600 transition-colors flex items-center justify-center gap-1 mx-auto">
-                                <i data-lucide="shield-check" class="w-4 h-4"></i> Login Portal Guru / Admin
-                            </button>
+                            <!-- FORM ADMIN -->
+                            <div id="form-admin" class="space-y-4 text-left hidden">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">PIN Akses Guru / Admin</label>
+                                    <input type="password" id="input-pin" placeholder="Masukkan PIN Admin" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-indigo-400 focus:outline-none font-medium">
+                                    <p class="text-xs text-slate-400 mt-1">Default PIN: <code class="bg-slate-100 px-1.5 py-0.5 rounded font-bold text-slate-600">admin123</code></p>
+                                </div>
+                                <button onclick="handleLoginAdmin()" class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition transform active:scale-95 flex items-center justify-center gap-2 mt-4">
+                                    <span>Masuk Panel Admin</span> <i data-lucide="shield-check" class="w-5 h-5"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        function selectAvatarUI(radio) {
-            document.querySelectorAll('.avatar-label').forEach(lbl => {
-                lbl.classList.remove('border-sky-500', 'bg-sky-50', 'ring-2', 'ring-sky-300');
+        let selectedAvatarSymbol = '🐱';
+        function selectAvatar(symbol, el) {
+            selectedAvatarSymbol = symbol;
+            document.querySelectorAll('.avatar-option').forEach(btn => {
+                btn.classList.remove('border-amber-400', 'bg-amber-50');
+                btn.classList.add('border-slate-200', 'bg-white');
             });
-            radio.closest('label').classList.add('border-sky-500', 'bg-sky-50', 'ring-2', 'ring-sky-300');
+            el.classList.remove('border-slate-200', 'bg-white');
+            el.classList.add('border-amber-400', 'bg-amber-50');
         }
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const name = document.getElementById('student-name').value.trim();
-            const clazz = document.getElementById('student-class').value;
-            const avatar = document.querySelector('input[name="avatar"]:checked').value;
+        function switchLoginTab(role) {
+            const btnSiswa = document.getElementById('tab-btn-siswa');
+            const btnAdmin = document.getElementById('tab-btn-admin');
+            const formSiswa = document.getElementById('form-siswa');
+            const formAdmin = document.getElementById('form-admin');
 
-            currentStudent = { name, class: clazz, avatar, score: 0, history: {} };
+            if (role === 'siswa') {
+                btnSiswa.className = "flex-1 py-2 text-sm font-bold rounded-xl transition bg-white shadow text-amber-700";
+                btnAdmin.className = "flex-1 py-2 text-sm font-bold rounded-xl transition text-slate-500";
+                formSiswa.classList.remove('hidden');
+                formAdmin.classList.add('hidden');
+            } else {
+                btnAdmin.className = "flex-1 py-2 text-sm font-bold rounded-xl transition bg-white shadow text-indigo-700";
+                btnSiswa.className = "flex-1 py-2 text-sm font-bold rounded-xl transition text-slate-500";
+                formAdmin.classList.remove('hidden');
+                formSiswa.classList.add('hidden');
+            }
+        }
+
+        function handleLoginSiswa() {
+            const nama = document.getElementById('input-nama').value.trim();
+            const kelas = document.getElementById('input-kelas').value;
+
+            if (!nama) {
+                showToast("Mohon masukkan nama lengkap Anda terlebih dahulu!", "error");
+                return;
+            }
+
+            currentUser = { name: nama, class: kelas, avatar: selectedAvatarSymbol, score: 0, isAdmin: false };
+            localStorage.setItem('tik_current_user', JSON.stringify(currentUser));
             
-            let students = JSON.parse(localStorage.getItem('tik_students')) || [];
-            let existing = students.find(s => s.name.toLowerCase() === name.toLowerCase());
-            if (existing) {
-                currentStudent.score = existing.score;
-            } else {
-                students.push(currentStudent);
-                localStorage.setItem('tik_students', JSON.stringify(students));
+            // Masukkan ke leaderboard awal jika belum ada
+            let lb = getData('tik_leaderboard');
+            if (!lb.some(u => u.name.toLowerCase() === nama.toLowerCase())) {
+                lb.push({ name: nama, class: kelas, score: 0, avatar: selectedAvatarSymbol });
+                saveData('tik_leaderboard', lb);
             }
 
-            currentView = 'student_dashboard';
-            studentActiveMenu = 'chapters';
-            saveSession();
-            render();
-            showToast(`Ahlan wa sahlan, ${name}! Selamat belajar.`);
+            renderApp();
+            showToast(`Selamat datang, ${nama}! Semangat belajar TIK ya.`, "success");
         }
 
-        // --- 2. ADMIN LOGIN SCREEN ---
-        function renderAdminLoginScreen() {
-            return `
-                <div class="flex-1 flex items-center justify-center p-4">
-                    <div class="max-w-md w-full bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 border-4 border-slate-300">
-                        <div class="text-center mb-6">
-                            <span class="inline-block text-5xl mb-2">🔒</span>
-                            <h1 class="text-2xl font-extrabold text-slate-800">PORTAL GURU / ADMIN</h1>
-                            <p class="text-sm font-semibold text-slate-500 mt-1">Masukkan PIN Akses</p>
-                        </div>
-                        <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-1">PIN Admin:</label>
-                                <input type="password" id="admin-pin" required placeholder="Masukkan PIN" 
-                                    class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none font-medium">
-                            </div>
-                            <button type="submit" class="w-full py-4 bg-slate-800 hover:bg-slate-900 text-white font-extrabold rounded-2xl shadow-lg transition-all text-lg">
-                                Masuk Panel Admin
-                            </button>
-                        </form>
-                        <div class="mt-6 text-center">
-                            <button onclick="currentView='login'; render();" class="text-sm font-bold text-sky-600 hover:underline">
-                                &larr; Kembali ke Portal Siswa
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function handleAdminLogin(e) {
-            e.preventDefault();
-            const pin = document.getElementById('admin-pin').value;
-            if (pin === 'admin135' || pin === 'admin') {
-                currentView = 'admin_dashboard';
-                saveSession();
-                render();
-                showToast("Berhasil masuk sebagai Admin/Guru!", "success");
+        function handleLoginAdmin() {
+            const pin = document.getElementById('input-pin').value;
+            if (pin === 'admin123') {
+                currentUser = { name: 'Guru Pengampu / Admin', isAdmin: true };
+                localStorage.setItem('tik_current_user', JSON.stringify(currentUser));
+                renderApp();
+                showToast("Berhasil masuk ke Panel Admin!", "success");
             } else {
-                showToast("PIN Admin salah!", "error");
+                showToast("PIN Admin salah! Gunakan: admin123", "error");
             }
         }
 
-        function goToAdminLogin() {
-            currentView = 'admin_login';
-            render();
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('tik_current_user');
+            renderApp();
+            showToast("Berhasil keluar portal.", "success");
         }
 
-        // --- 3. STUDENT PORTAL DASHBOARD ---
-        function renderStudentPortal() {
-            // Fetch fresh data from localStorage for real-time synchronization
-            const chapters = JSON.parse(localStorage.getItem('tik_chapters'));
-            const kisi = JSON.parse(localStorage.getItem('tik_kisi'));
-            const students = JSON.parse(localStorage.getItem('tik_students')) || [];
-            students.sort((a,b) => b.score - a.score);
-
-            return `
-                <header class="bg-white/90 backdrop-blur-md shadow-md sticky top-0 z-40 border-b border-amber-200">
-                    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+        // --- 2. PORTAL SISWA ---
+        function renderStudentPortal(container) {
+            container.innerHTML = `
+                <!-- Header / Navbar Siswa -->
+                <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-amber-100 shadow-sm px-4 py-3">
+                    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-amber-300 rounded-2xl flex items-center justify-center text-2xl shadow-inner">${currentStudent.avatar}</div>
+                            <div class="w-12 h-12 bg-amber-400 rounded-2xl flex items-center justify-center text-2xl shadow">
+                                ${currentUser.avatar}
+                            </div>
                             <div>
-                                <h2 class="font-extrabold text-slate-800 text-base leading-tight">${currentStudent.name}</h2>
-                                <p class="text-xs font-bold text-sky-600">Kelas ${currentStudent.class} | Poin: <span class="text-amber-600 font-extrabold">${currentStudent.score} ⭐</span></p>
+                                <h2 class="font-bold text-slate-800 leading-tight">${currentUser.name}</h2>
+                                <p class="text-xs text-slate-500 font-medium">Kelas ${currentUser.class} • Poin: <span id="header-score" class="font-extrabold text-amber-600">${currentUser.score}</span></p>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-1 sm:gap-2 overflow-x-auto py-1">
-                            <button onclick="switchStudentMenu('chapters')" class="px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 ${studentActiveMenu === 'chapters' ? 'bg-sky-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
-                                <i data-lucide="book-open" class="w-4 h-4"></i> Materi
-                            </button>
-                            <button onclick="switchStudentMenu('quiz')" class="px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 ${studentActiveMenu === 'quiz' ? 'bg-amber-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
-                                <i data-lucide="help-circle" class="w-4 h-4"></i> Kuis
-                            </button>
-                            <button onclick="switchStudentMenu('kisi')" class="px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 ${studentActiveMenu === 'kisi' ? 'bg-emerald-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
-                                <i data-lucide="file-text" class="w-4 h-4"></i> Kisi-Kisi PSAS
-                            </button>
-                            <button onclick="switchStudentMenu('leaderboard')" class="px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 ${studentActiveMenu === 'leaderboard' ? 'bg-purple-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
-                                <i data-lucide="trophy" class="w-4 h-4"></i> Leaderboard
-                            </button>
+                        <!-- Nav Menu -->
+                        <div class="flex items-center gap-1 bg-amber-50 p-1.5 rounded-2xl overflow-x-auto max-w-full">
+                            <button onclick="switchStudentTab('materi')" class="student-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${activeTab === 'materi' ? 'bg-amber-500 text-white shadow' : 'text-slate-600 hover:bg-amber-100'}"><i data-lucide="book-open" class="w-4 h-4"><span>Materi</span></i></button>
+                            <button onclick="switchStudentTab('kuis')" class="student-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${activeTab === 'kuis' ? 'bg-amber-500 text-white shadow' : 'text-slate-600 hover:bg-amber-100'}"><i data-lucide="help-circle" class="w-4 h-4"><span>Kuis</span></i></button>
+                            <button onclick="switchStudentTab('kisi')" class="student-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${activeTab === 'kisi' ? 'bg-amber-500 text-white shadow' : 'text-slate-600 hover:bg-amber-100'}"><i data-lucide="file-text" class="w-4 h-4"><span>Kisi-Kisi</span></i></button>
+                            <button onclick="switchStudentTab('leaderboard')" class="student-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${activeTab === 'leaderboard' ? 'bg-amber-500 text-white shadow' : 'text-slate-600 hover:bg-amber-100'}"><i data-lucide="trophy" class="w-4 h-4"><span>Peringkat</span></i></button>
                         </div>
 
-                        <div class="flex items-center gap-2">
-                            <button onclick="manualLogout()" class="px-3 py-2 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs rounded-xl transition-all flex items-center gap-1">
-                                <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
-                            </button>
-                        </div>
+                        <button onclick="handleLogout()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl font-bold text-xs flex items-center gap-1 transition">
+                            <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+                        </button>
                     </div>
                 </header>
 
-                <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6">
-                    ${studentActiveMenu === 'chapters' ? renderChaptersView(chapters) : ''}
-                    ${studentActiveMenu === 'quiz' ? renderQuizView() : ''}
-                    ${studentActiveMenu === 'kisi' ? renderKisiView(kisi) : ''}
-                    ${studentActiveMenu === 'leaderboard' ? renderLeaderboardView(students) : ''}
+                <!-- Content Body -->
+                <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6" id="student-content-area">
+                    <!-- Dinamis render konten tab -->
                 </main>
-
-                ${currentActiveChapter !== null ? renderChapterModal(chapters.find(c => c.id === currentActiveChapter)) : ''}
             `;
+            renderStudentContent();
         }
 
-        function switchStudentMenu(menu) {
-            studentActiveMenu = menu;
-            saveSession();
-            render();
+        function switchStudentTab(tab) {
+            activeTab = tab;
+            localStorage.setItem('tik_active_tab', tab);
+            renderStudentContent();
+            // Update active style buttons
+            document.querySelectorAll('.student-tab-btn').forEach(btn => {
+                btn.className = "student-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 text-slate-600 hover:bg-amber-100";
+            });
+            event.currentTarget.className = "student-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 bg-amber-500 text-white shadow";
         }
 
-        function manualLogout() {
-            sessionStorage.removeItem('tik_current_student');
-            sessionStorage.removeItem('tik_current_view');
-            sessionStorage.removeItem('tik_student_menu');
-            currentStudent = null;
-            currentView = 'login';
-            render();
-            showToast("Anda telah keluar dari portal.");
+        function renderStudentContent() {
+            const area = document.getElementById('student-content-area');
+            if (!area) return;
+
+            if (activeTab === 'materi') {
+                renderMateriView(area);
+            } else if (activeTab === 'kuis') {
+                renderKuisView(area);
+            } else if (activeTab === 'kisi') {
+                renderKisiView(area);
+            } else if (activeTab === 'leaderboard') {
+                renderLeaderboardView(area);
+            }
+            lucide.createIcons();
         }
 
-        // --- CHAPTERS VIEW & GOOGLE DRIVE PDF INTEGRATION ---
-        function renderChaptersView(chapters) {
-            const cardColors = [
-                'from-sky-400 to-blue-500 border-sky-200',
-                'from-amber-400 to-orange-500 border-amber-200',
-                'from-emerald-400 to-teal-500 border-emerald-200',
-                'from-pink-400 to-rose-500 border-pink-200',
-                'from-purple-400 to-indigo-500 border-purple-200',
-                'from-cyan-400 to-blue-600 border-cyan-200'
-            ];
-
-            return `
-                <div class="mb-6 text-center sm:text-left">
-                    <h1 class="text-3xl font-extrabold text-slate-800">📚 Ringkasan Materi TIK Kelas 3</h1>
-                    <p class="text-slate-600 font-medium mt-1">Pilih Bab di bawah ini untuk membaca ringkasan dan membuka file PDF dari Google Drive yang diperbarui guru.</p>
+        // --- RENDER 6 BAB MATERI ---
+        function renderMateriView(container) {
+            const chapters = getData('tik_chapters');
+            let html = `
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Rangkuman Materi TIK Kelas 3 SD</h2>
+                    <p class="text-slate-600 text-sm">Pilih Bab untuk membaca ringkasan dan mengunduh materi PDF dari guru.</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${chapters.map((ch, idx) => `
-                        <div onclick="openChapterModal(${ch.id})" class="bg-white rounded-3xl p-6 shadow-lg border-2 border-slate-100 hover:border-sky-400 cursor-pointer transition-all transform hover:-translate-y-1 flex flex-col justify-between group">
-                            <div>
-                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${cardColors[idx % cardColors.length]} text-white flex items-center justify-center font-extrabold text-lg shadow-md mb-4">
-                                    0${ch.id}
-                                </div>
-                                <h3 class="font-extrabold text-slate-800 text-lg group-hover:text-sky-600 transition-colors mb-2">
-                                    Bab ${ch.id}: ${ch.title}
-                                </h3>
-                                <p class="text-slate-600 text-sm line-clamp-3 content-andika">
-                                    ${ch.summary}
-                                </p>
-                            </div>
-                            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-sky-600">
-                                <span class="flex items-center gap-1"><i data-lucide="file-text" class="w-4 h-4"></i> ${ch.pdfs ? ch.pdfs.length : 0} Tautan PDF</span>
-                                <span class="bg-sky-50 px-3 py-1 rounded-full group-hover:bg-sky-500 group-hover:text-white transition-all">Baca Materi &rarr;</span>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
             `;
+
+            chapters.forEach((ch, idx) => {
+                const colors = [
+                    'from-amber-400 to-orange-400 border-amber-200',
+                    'from-sky-400 to-blue-500 border-sky-200',
+                    'from-emerald-400 to-teal-500 border-emerald-200',
+                    'from-purple-400 to-indigo-500 border-purple-200',
+                    'from-rose-400 to-pink-500 border-rose-200',
+                    'from-amber-500 to-yellow-500 border-amber-200'
+                ];
+                const badgeColor = colors[idx % colors.length];
+
+                html += `
+                    <div class="bg-white rounded-3xl shadow-lg border-2 ${badgeColor.split(' ')[2]} overflow-hidden flex flex-col justify-between transition hover:-translate-y-1 hover:shadow-xl">
+                        <div class="p-6">
+                            <div class="w-12 h-12 bg-gradient-to-tr ${badgeColor.split(' ')[0]} ${badgeColor.split(' ')[1]} rounded-2xl flex items-center justify-center text-white font-extrabold text-lg shadow mb-4">
+                                ${ch.id}
+                            </div>
+                            <h3 class="font-extrabold text-lg text-slate-800 mb-2">Bab ${ch.id}: ${ch.title}</h3>
+                            <p class="text-slate-600 text-sm content-andika line-clamp-3 mb-4">${ch.summary}</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                            <button onclick="openChapterDetail(${ch.id})" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                                <i data-lucide="book-open" class="w-4 h-4"></i> Baca Materi
+                            </button>
+                            <span class="text-xs text-slate-500 font-medium">${ch.pdfs.length} File PDF</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
         }
 
-        function openChapterModal(id) {
-            currentActiveChapter = id;
-            render();
-        }
+        function openChapterDetail(id) {
+            const chapters = getData('tik_chapters');
+            const ch = chapters.find(c => c.id === id);
+            if (!ch) return;
 
-        function closeChapterModal() {
-            currentActiveChapter = null;
-            render();
-        }
+            let pdfHtml = '';
+            ch.pdfs.forEach((pdf, i) => {
+                pdfHtml += `
+                    <div class="flex items-center justify-between p-3 bg-amber-50 border border-amber-200 rounded-xl mb-2">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="file-text" class="w-5 h-5 text-amber-600"></i>
+                            <span class="text-sm font-bold text-slate-700">${pdf.name || 'Materi PDF Bab ' + ch.id}</span>
+                        </div>
+                        <a href="${pdf.url}" target="_blank" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold transition flex items-center gap-1">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i> Unduh Google Drive
+                        </a>
+                    </div>
+                `;
+            });
 
-        function renderChapterModal(ch) {
-            return `
-                <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-                    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border-4 border-amber-300 relative">
-                        <button onclick="closeChapterModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-rose-100 text-slate-500 hover:text-rose-600 flex items-center justify-center font-bold text-xl transition-all">
-                            &times;
-                        </button>
-
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="px-3 py-1 bg-amber-100 text-amber-800 font-extrabold text-xs rounded-full">BAB ${ch.id}</span>
+            const area = document.getElementById('student-content-area');
+            area.innerHTML = `
+                <button onclick="renderStudentContent()" class="mb-4 px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Daftar Bab
+                </button>
+                <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8 border-2 border-amber-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-amber-400 rounded-2xl flex items-center justify-center text-white font-extrabold text-xl shadow">
+                            ${ch.id}
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Bab ${ch.id} TIK Kelas 3</span>
                             <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800">${ch.title}</h2>
                         </div>
+                    </div>
+                    <hr class="border-slate-100 my-4">
+                    <div class="content-andika text-slate-700 whitespace-pre-line mb-8 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        ${ch.summary}
+                    </div>
 
-                        <div class="bg-sky-50/70 p-5 rounded-2xl border border-sky-100 mb-6 content-andika text-slate-700 whitespace-pre-line">
-                            ${ch.summary}
-                        </div>
+                    <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <i data-lucide="folder-down" class="w-5 h-5 text-amber-500"></i> Unduh Berkas Materi (PDF / Google Drive)
+                    </h4>
+                    <div class="space-y-2 mb-6">
+                        ${pdfHtml || '<p class="text-sm text-slate-400 italic">Belum ada file PDF yang diunggah guru untuk bab ini.</p>'}
+                    </div>
 
-                        <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
-                            <i data-lucide="external-link" class="w-5 h-5 text-sky-600"></i> Berkas Materi PDF (Tautan Google Drive Guru):
-                        </h4>
-
-                        <div class="space-y-2 mb-6">
-                            ${ch.pdfs && ch.pdfs.length > 0 ? ch.pdfs.map((pdf, pIdx) => `
-                                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
-                                    <div class="flex items-center gap-3 overflow-hidden">
-                                        <div class="w-10 h-10 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-extrabold text-xs flex-shrink-0">PDF</div>
-                                        <div class="truncate">
-                                            <p class="font-bold text-sm text-slate-800 truncate">${pdf.name}</p>
-                                            <a href="${pdf.url}" target="_blank" class="text-xs text-sky-600 hover:underline truncate block">${pdf.url}</a>
-                                        </div>
-                                    </div>
-                                    <a href="${pdf.url}" target="_blank" class="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs rounded-xl shadow transition-all flex items-center gap-1 flex-shrink-0">
-                                        <i data-lucide="external-link" class="w-4 h-4"></i> Buka PDF
-                                    </a>
-                                </div>
-                            `).join('') : '<p class="text-sm text-slate-400 italic">Belum ada tautan PDF yang diunggah guru untuk bab ini.</p>'}
-                        </div>
-
-                        <div class="flex justify-end">
-                            <button onclick="closeChapterModal()" class="px-6 py-3 bg-slate-800 text-white font-bold rounded-2xl hover:bg-slate-900 transition-all">
-                                Tutup
-                            </button>
-                        </div>
+                    <div class="flex justify-end">
+                        <button onclick="switchStudentTab('kuis')" class="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl shadow-lg hover:from-amber-600 hover:to-orange-600 transition flex items-center gap-2">
+                            <span>Kerjakan Kuis Bab Ini</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
                     </div>
                 </div>
             `;
+            lucide.createIcons();
         }
 
-        // --- QUIZ VIEW (STATE PERSISTENCE ON MENU SWITCH) ---
-        function renderQuizView() {
-            const allQuestions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
-            const chapters = JSON.parse(localStorage.getItem('tik_chapters'));
+        // --- RENDER KUIS (15 SOAL PER BAB DENGAN STIMULUS & PENJELASAN) ---
+        function renderKuisView(container) {
+            const allQuestions = getData('tik_questions');
+            let html = `
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Kuis Seru TIK Kelas 3</h2>
+                    <p class="text-slate-600 text-sm">Pilih Bab dan uji pemahamanmu dengan 15 soal pilihan ganda di setiap bab!</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            `;
 
-            if (!activeQuizChapter) {
-                return `
-                    <div class="mb-6">
-                        <h1 class="text-3xl font-extrabold text-slate-800">🎯 Kuis Interaktif Bab 1 - 6</h1>
-                        <p class="text-slate-600 font-medium mt-1">Setiap bab memiliki 15 soal dengan penjelasan dan poin! Jika tidak sengaja berpindah menu, kuis akan tetap berlanjut.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${chapters.map((ch, idx) => {
-                            const qList = allQuestions[ch.id] || [];
-                            const isCompleted = currentStudent.history && currentStudent.history[ch.id];
-                            return `
-                                <div class="bg-white rounded-3xl p-6 shadow-lg border-2 border-slate-100 flex flex-col justify-between">
-                                    <div>
-                                        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-extrabold text-lg shadow-inner mb-4">
-                                            Q${ch.id}
-                                        </div>
-                                        <h3 class="font-extrabold text-slate-800 text-lg mb-2">Kuis Bab ${ch.id}</h3>
-                                        <p class="text-slate-600 text-sm mb-4">${ch.title}</p>
-                                        <p class="text-xs font-bold text-slate-400">${qList.length} Soal Tersedia</p>
-                                    </div>
-                                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                                        <span class="text-xs font-extrabold ${isCompleted ? 'text-emerald-600' : 'text-amber-600'}">
-                                            ${isCompleted ? '✅ Selesai Dikerjakan' : '⭐ Belum Dikerjakan'}
-                                        </span>
-                                        <button onclick="startQuiz(${ch.id})" class="px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold text-sm rounded-xl shadow transition-all">
-                                            Mulai Kuis &rarr;
-                                        </button>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                `;
-            }
-
-            const qList = allQuestions[activeQuizChapter] || [];
-            if (!quizState[activeQuizChapter]) {
-                quizState[activeQuizChapter] = { currentIndex: 0, score: 0, answers: {}, finished: false };
-            }
-            const st = quizState[activeQuizChapter];
-
-            if (st.finished || st.currentIndex >= qList.length) {
-                return `
-                    <div class="max-w-xl mx-auto bg-white rounded-3xl p-8 shadow-2xl border-4 border-amber-300 text-center">
-                        <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 bounce-gentle">🏆</div>
-                        <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Kuis Bab ${activeQuizChapter} Selesai!</h2>
-                        <p class="text-slate-600 mb-6">Barakallahu fiik! Kamu telah menyelesaikan seluruh soal pada bab ini.</p>
-                        <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 mb-6">
-                            <p class="text-sm font-bold text-slate-500">Poin Diperoleh pada Kuis Ini:</p>
-                            <p class="text-4xl font-extrabold text-amber-600 mt-1">+${st.score} ⭐</p>
+            for (let i = 1; i <= 6; i++) {
+                const qCount = (allQuestions[i] || []).length;
+                html += `
+                    <div class="bg-white rounded-3xl shadow-lg p-6 border-2 border-slate-100 flex flex-col justify-between transition hover:border-amber-300">
+                        <div>
+                            <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center font-extrabold text-base mb-4">
+                                ${i}
+                            </div>
+                            <h3 class="font-extrabold text-lg text-slate-800 mb-1">Kuis Bab ${i}</h3>
+                            <p class="text-xs text-slate-500 font-medium mb-4">${qCount} Soal Latihan Berkualitas</p>
                         </div>
-                        <button onclick="finishQuizChapter(${activeQuizChapter})" class="w-full py-4 bg-sky-500 hover:bg-sky-600 text-white font-extrabold rounded-2xl shadow-lg transition-all text-lg">
-                            Kembali ke Daftar Kuis
+                        <button onclick="startQuiz(${i})" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow transition flex items-center justify-center gap-2">
+                            <span>Mulai Kuis</span> <i data-lucide="play" class="w-4 h-4"></i>
                         </button>
                     </div>
                 `;
             }
+            html += `</div>`;
+            container.innerHTML = html;
+        }
 
-            const q = qList[st.currentIndex];
-            const answeredData = st.answers[st.currentIndex];
+        function startQuiz(chapterId) {
+            currentQuizChapter = chapterId;
+            currentQuizIndex = quizAnswersState[chapterId]?.currentIndex || 0;
+            renderQuizQuestion();
+        }
 
-            return `
-                <div class="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-2 border-slate-100">
-                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-                        <div class="flex items-center gap-2">
-                            <button onclick="activeQuizChapter = null; render();" class="text-xs font-bold text-sky-600 hover:underline">&larr; Keluar Kuis</button>
-                            <span class="text-slate-300">|</span>
-                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">Bab ${activeQuizChapter}</span>
+        function renderQuizQuestion() {
+            const allQuestions = getData('tik_questions');
+            const questions = allQuestions[currentQuizChapter] || [];
+            if (questions.length === 0) {
+                showToast("Soal untuk bab ini belum tersedia.", "error");
+                return;
+            }
+
+            if (currentQuizIndex >= questions.length) {
+                // Kuis Selesai
+                const area = document.getElementById('student-content-area');
+                area.innerHTML = `
+                    <div class="max-w-md mx-auto bg-white rounded-3xl shadow-xl p-8 text-center border-4 border-amber-300">
+                        <div class="w-20 h-20 bg-amber-400 text-white rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-lg bounce-gentle mb-4">
+                            🏆
                         </div>
-                        <span class="text-xs font-extrabold text-slate-500">Soal ${st.currentIndex + 1} dari ${qList.length}</span>
+                        <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Kuis Bab ${currentQuizChapter} Selesai!</h2>
+                        <p class="text-slate-600 text-sm mb-6">Hebat sekali! Kamu telah menyelesaikan seluruh soal pada bab ini dengan luar biasa.</p>
+                        <button onclick="currentQuizChapter = null; renderStudentContent();" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow transition">
+                            Kembali ke Menu Kuis
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            const q = questions[currentQuizIndex];
+            const area = document.getElementById('student-content-area');
+            
+            // Cek apakah soal ini sudah pernah dijawab sebelumnya di state
+            const savedState = quizAnswersState[currentQuizChapter]?.[q.id];
+
+            area.innerHTML = `
+                <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-6 sm:p-8 border-2 border-amber-200">
+                    <div class="flex items-center justify-between mb-6">
+                        <button onclick="currentQuizChapter = null; renderStudentContent();" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs flex items-center gap-1 transition">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Menu Kuis
+                        </button>
+                        <span class="px-3 py-1 bg-amber-100 text-amber-800 font-extrabold text-xs rounded-full">
+                            Soal ${currentQuizIndex + 1} dari ${questions.length} (Bab ${currentQuizChapter})
+                        </span>
                     </div>
 
-                    <div class="mb-6">
-                        <h3 class="text-lg sm:text-xl font-extrabold text-slate-800 content-andika leading-relaxed mb-4">
+                    <!-- Stimulus / Pertanyaan -->
+                    <div class="bg-amber-50/70 border border-amber-200 p-5 rounded-2xl mb-6">
+                        <h3 class="font-bold text-slate-800 text-base sm:text-lg content-andika">
                             ${q.stimulus}
                         </h3>
                     </div>
 
-                    <div class="space-y-3 mb-6">
-                        ${q.options.map((opt, oIdx) => {
-                            let btnStyle = "border-slate-200 hover:border-sky-400 hover:bg-sky-50 text-slate-700 bg-white";
-                            if (answeredData !== undefined) {
-                                if (oIdx === q.answer) {
-                                    btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold ring-2 ring-emerald-300";
-                                } else if (answeredData === oIdx && oIdx !== q.answer) {
-                                    btnStyle = "border-rose-500 bg-rose-50 text-rose-900 font-bold ring-2 ring-rose-300";
+                    <!-- Pilihan A, B, C -->
+                    <div class="space-y-3 mb-6" id="quiz-options-container">
+                        ${q.options.map((opt, idx) => {
+                            let btnStyle = "border-slate-200 hover:border-amber-400 bg-white text-slate-700";
+                            let iconMark = String.fromCharCode(65 + idx);
+                            if (savedState !== undefined) {
+                                if (idx === q.answer) {
+                                    btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold";
+                                    iconMark = "✅";
+                                } else if (idx === savedState && savedState !== q.answer) {
+                                    btnStyle = "border-rose-500 bg-rose-50 text-rose-900";
+                                    iconMark = "❌";
                                 } else {
-                                    btnStyle = "border-slate-200 opacity-50 bg-white text-slate-400";
+                                    btnStyle = "border-slate-200 bg-slate-50 opacity-60 text-slate-400";
                                 }
                             }
                             return `
-                                <button onclick="answerQuizOption(${oIdx})" ${answeredData !== undefined ? 'disabled' : ''} class="w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between font-medium ${btnStyle}">
-                                    <span class="flex items-center gap-3">
-                                        <span class="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center font-extrabold text-xs text-slate-600">${String.fromCharCode(65 + oIdx)}</span>
-                                        <span class="content-andika">${opt}</span>
-                                    </span>
-                                    ${answeredData !== undefined && oIdx === q.answer ? '<span class="text-emerald-600 font-bold">✔ Benar</span>' : ''}
-                                    ${answeredData !== undefined && answeredData === oIdx && oIdx !== q.answer ? '<span class="text-rose-600 font-bold">✖ Salah</span>' : ''}
+                                <button onclick="answerQuiz(${q.id}, ${idx}, ${q.answer})" ${savedState !== undefined ? 'disabled' : ''} class="w-full text-left p-4 rounded-xl border-2 ${btnStyle} transition flex items-center gap-3 font-medium">
+                                    <span class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-sm shrink-0">${iconMark}</span>
+                                    <span>${opt}</span>
                                 </button>
                             `;
                         }).join('')}
                     </div>
 
-                    ${answeredData !== undefined ? `
-                        <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 mb-6">
-                            <p class="font-bold text-amber-900 text-sm mb-1">💡 Penjelasan:</p>
-                            <p class="text-slate-700 text-sm content-andika">${q.explanation}</p>
-                        </div>
-                        <div class="flex justify-end">
-                            <button onclick="nextQuizQuestion()" class="px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold rounded-2xl shadow-lg hover:from-amber-500 hover:to-amber-600 transition-all flex items-center gap-2">
-                                ${st.currentIndex + 1 >= qList.length ? 'Selesaikan Kuis 🏁' : 'Soal Berikutnya &rarr;'}
-                            </button>
-                        </div>
-                    ` : ''}
+                    <!-- Penjelasan & Tombol Lanjut -->
+                    <div id="quiz-feedback-box" class="${savedState !== undefined ? '' : 'hidden'} bg-sky-50 border border-sky-200 p-4 rounded-2xl mb-6">
+                        <h4 class="font-bold text-sky-900 text-sm mb-1 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4"></i> Penjelasan:</h4>
+                        <p class="text-sky-800 text-sm content-andika">${q.explanation}</p>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button id="next-quiz-btn" onclick="nextQuizQuestion()" class="${savedState !== undefined ? '' : 'hidden'} px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl shadow transition flex items-center gap-2">
+                            <span>Soal Selanjutnya</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
                 </div>
             `;
+            lucide.createIcons();
         }
 
-        function startQuiz(chapterId) {
-            activeQuizChapter = chapterId;
-            if (!quizState[chapterId]) {
-                quizState[chapterId] = { currentIndex: 0, score: 0, answers: {}, finished: false };
+        function answerQuiz(questionId, selectedIdx, correctIdx) {
+            if (!quizAnswersState[currentQuizChapter]) {
+                quizAnswersState[currentQuizChapter] = { currentIndex: currentQuizIndex };
             }
-            saveSession();
-            render();
-        }
+            quizAnswersState[currentQuizChapter][questionId] = selectedIdx;
+            localStorage.setItem('tik_quiz_answers', JSON.stringify(quizAnswersState));
 
-        function answerQuizOption(optIdx) {
-            const allQuestions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
-            const qList = allQuestions[activeQuizChapter];
-            const st = quizState[activeQuizChapter];
-            const q = qList[st.currentIndex];
-
-            st.answers[st.currentIndex] = optIdx;
-            if (optIdx === q.answer) {
-                st.score += 10;
+            // Jika benar, tambah poin
+            if (selectedIdx === correctIdx) {
+                currentUser.score += 10;
+                localStorage.setItem('tik_current_user', JSON.stringify(currentUser));
+                updateLeaderboardScore(currentUser.name, currentUser.score);
+                document.getElementById('header-score').innerText = currentUser.score;
+                showToast("Jawaban Benar! +10 Poin", "success");
+            } else {
+                showToast("Kurang tepat, yuk pelajari penjelasannya!", "error");
             }
-            saveSession();
-            render();
+
+            renderQuizQuestion();
         }
 
         function nextQuizQuestion() {
-            const allQuestions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
-            const qList = allQuestions[activeQuizChapter];
-            const st = quizState[activeQuizChapter];
-
-            if (st.currentIndex + 1 < qList.length) {
-                st.currentIndex += 1;
-            } else {
-                st.finished = true;
-                currentStudent.score += st.score;
-                currentStudent.history = currentStudent.history || {};
-                currentStudent.history[activeQuizChapter] = st.score;
-
-                let students = JSON.parse(localStorage.getItem('tik_students')) || [];
-                let idx = students.findIndex(s => s.name.toLowerCase() === currentStudent.name.toLowerCase());
-                if (idx !== -1) {
-                    students[idx].score = currentStudent.score;
-                } else {
-                    students.push(currentStudent);
-                }
-                localStorage.setItem('tik_students', JSON.stringify(students));
-                showToast(`Kuis selesai! Kamu mendapat +${st.score} Poin ⭐`);
+            currentQuizIndex++;
+            if (!quizAnswersState[currentQuizChapter]) {
+                quizAnswersState[currentQuizChapter] = {};
             }
-            saveSession();
-            render();
+            quizAnswersState[currentQuizChapter].currentIndex = currentQuizIndex;
+            localStorage.setItem('tik_quiz_answers', JSON.stringify(quizAnswersState));
+            renderQuizQuestion();
         }
 
-        function finishQuizChapter(chapterId) {
-            activeQuizChapter = null;
-            saveSession();
-            render();
+        function updateLeaderboardScore(name, score) {
+            let lb = getData('tik_leaderboard');
+            let userEntry = lb.find(u => u.name.toLowerCase() === name.toLowerCase());
+            if (userEntry) {
+                userEntry.score = Math.max(userEntry.score, score);
+            } else {
+                lb.push({ name: name, class: currentUser.class, score: score, avatar: currentUser.avatar });
+            }
+            lb.sort((a, b) => b.score - a.score);
+            saveData('tik_leaderboard', lb);
         }
 
-        // --- KISI-KISI VIEW ---
-        function renderKisiView(kisi) {
-            return `
-                <div class="mb-6">
-                    <h1 class="text-3xl font-extrabold text-slate-800">📋 Kisi-Kisi PSAS Semester 1 & 2</h1>
-                    <p class="text-slate-600 font-medium mt-1">Panduan kisi-kisi ujian mata pelajaran TIK Kelas 3 SD Bab 1 sampai 6.</p>
+        // --- RENDER KISI-KISI PSAS 1 ---
+        function renderKisiView(container) {
+            const kisi = getData('tik_kisi');
+            let html = `
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Kisi-Kisi PSAS 1 TIK Kelas 3</h2>
+                    <p class="text-slate-600 text-sm">Pelajari poin-poin penting berikut sebagai persiapan menghadapi Penilaian Sumatif Akhir Semester (PSAS).</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    ${kisi.map(item => `
-                        <div class="bg-white rounded-3xl p-6 shadow-lg border-2 border-slate-100">
-                            <div class="flex items-center gap-3 mb-4">
-                                <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-extrabold text-xs rounded-full">${item.chapter}</span>
-                                <h3 class="font-extrabold text-slate-800 text-lg">${item.title}</h3>
+            `;
+
+            kisi.forEach((item, idx) => {
+                html += `
+                    <div class="bg-white rounded-3xl shadow-lg p-6 border-2 border-slate-100 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center font-extrabold text-sm">
+                                    ${idx + 1}
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">${item.chapter}</span>
+                                    <h3 class="font-extrabold text-lg text-slate-800">${item.title}</h3>
+                                </div>
                             </div>
-                            <ul class="space-y-2">
-                                ${item.points.map(pt => `
-                                    <li class="flex items-start gap-2 text-slate-700 text-sm content-andika">
-                                        <span class="text-emerald-500 font-extrabold mt-0.5">✔</span>
-                                        <span>${pt}</span>
-                                    </li>
-                                `).join('')}
+                            <ul class="space-y-2 mt-4">
+                `;
+
+                item.points.forEach(pt => {
+                    html += `
+                        <li class="flex items-start gap-2 text-slate-700 text-sm content-andika">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 shrink-0 mt-1"></i>
+                            <span>${pt}</span>
+                        </li>
+                    `;
+                });
+
+                html += `
                             </ul>
                         </div>
-                    `).join('')}
-                </div>
-            `;
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
         }
 
-        // --- LEADERBOARD VIEW WITH ISLAMIC NAMES ---
-        function renderLeaderboardView(students) {
-            return `
-                <div class="max-w-2xl mx-auto">
-                    <div class="text-center mb-6">
-                        <span class="text-4xl mb-2 inline-block bounce-gentle">🏆</span>
-                        <h1 class="text-3xl font-extrabold text-slate-800">Papan Peringkat (Leaderboard)</h1>
-                        <p class="text-slate-600 font-medium mt-1">Siswa terajin peraih poin kuis TIK Kelas 3!</p>
-                    </div>
+        // --- RENDER LEADERBOARD ---
+        function renderLeaderboardView(container) {
+            let lb = getData('tik_leaderboard');
+            lb.sort((a, b) => b.score - a.score);
 
-                    <div class="bg-white rounded-3xl shadow-xl border-2 border-amber-200 overflow-hidden">
-                        <div class="bg-gradient-to-r from-amber-400 to-amber-500 p-4 text-slate-900 font-extrabold flex items-center justify-between">
-                            <span>Nama Siswa</span>
-                            <span>Total Poin</span>
-                        </div>
-                        <div class="divide-y divide-slate-100">
-                            ${students.map((st, idx) => `
-                                <div class="flex items-center justify-between p-4 sm:p-5 hover:bg-amber-50/50 transition-colors ${st.name.toLowerCase() === currentStudent?.name.toLowerCase() ? 'bg-sky-50 font-bold' : ''}">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-2xl flex items-center justify-center font-extrabold text-base ${idx === 0 ? 'bg-amber-400 text-slate-900 shadow-md' : idx === 1 ? 'bg-slate-300 text-slate-800' : idx === 2 ? 'bg-amber-700/30 text-amber-900' : 'bg-slate-100 text-slate-600'}">
-                                            #${idx + 1}
-                                        </div>
-                                        <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-xl shadow-inner">
-                                            ${st.avatar || '👦'}
-                                        </div>
-                                        <div>
-                                            <p class="font-extrabold text-slate-800">${st.name} ${st.name.toLowerCase() === currentStudent?.name.toLowerCase() ? '(Kamu)' : ''}</p>
-                                            <p class="text-xs text-slate-500">Kelas ${st.class}</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-lg font-extrabold text-amber-600">${st.score}</span>
-                                        <span class="text-xs font-bold text-slate-400">⭐</span>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+            let listHtml = '';
+            lb.forEach((user, idx) => {
+                let badgeBg = 'bg-slate-100 text-slate-700';
+                if (idx === 0) badgeBg = 'bg-amber-400 text-white shadow-md';
+                else if (idx === 1) badgeBg = 'bg-slate-300 text-slate-800';
+                else if (idx === 2) badgeBg = 'bg-amber-600 text-white';
 
-        // --- 4. ADMIN PORTAL DASHBOARD ---
-        function renderAdminPortal() {
-            const chapters = JSON.parse(localStorage.getItem('tik_chapters'));
-            const kisi = JSON.parse(localStorage.getItem('tik_kisi'));
-            const questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
-            const students = JSON.parse(localStorage.getItem('tik_students')) || [];
-            students.sort((a,b) => b.score - a.score);
-
-            return `
-                <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40">
-                    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-amber-400 rounded-xl flex items-center justify-center text-slate-900 font-extrabold">👑</div>
+                listHtml += `
+                    <div class="flex items-center justify-between p-4 bg-white rounded-2xl border-2 border-slate-100 shadow-sm transition hover:border-amber-300">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-sm ${badgeBg}">
+                                #${idx + 1}
+                            </div>
+                            <div class="w-12 h-12 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-center text-2xl shadow-sm">
+                                ${user.avatar || '🐱'}
+                            </div>
                             <div>
-                                <h1 class="font-extrabold text-lg leading-tight">Panel Admin & Guru TIK</h1>
-                                <p class="text-xs text-slate-400">Kelola Ringkasan, Tautan Google Drive PDF, Soal & Siswa</p>
+                                <h4 class="font-bold text-slate-800 text-base">${user.name}</h4>
+                                <p class="text-xs text-slate-500 font-medium">Kelas ${user.class}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-lg font-extrabold text-amber-600">${user.score}</span>
+                            <span class="text-xs text-slate-400 block font-medium">Poin</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="max-w-2xl mx-auto">
+                    <div class="mb-6 text-center">
+                        <div class="w-16 h-16 bg-amber-400 text-white rounded-3xl mx-auto flex items-center justify-center text-3xl shadow-lg bounce-gentle mb-3">
+                            🏆
+                        </div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Papan Peringkat Siswa</h2>
+                        <p class="text-slate-600 text-sm">Siswa dengan perolehan poin kuis tertinggi di TIK Kelas 3!</p>
+                    </div>
+                    <div class="space-y-3">
+                        ${listHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 3. PORTAL ADMIN (GURU) ---
+        let adminActiveTab = 'materi';
+
+        function renderAdminPortal(container) {
+            container.innerHTML = `
+                <!-- Header Admin -->
+                <header class="bg-indigo-900 text-white sticky top-0 z-40 shadow-md px-4 py-3">
+                    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-indigo-700 rounded-2xl flex items-center justify-center text-white shadow">
+                                <i data-lucide="shield-check" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-bold text-lg leading-tight">Panel Guru / Admin TIK</h2>
+                                <p class="text-xs text-indigo-200 font-medium">Kelola materi, PDF Google Drive, soal kuis, & kisi-kisi</p>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-2 overflow-x-auto py-1">
-                            <button onclick="adminTab='materials'; render();" class="px-4 py-2 rounded-xl font-bold text-xs transition-all ${adminTab === 'materials' ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-                                📚 Materi & Google Drive PDF
-                            </button>
-                            <button onclick="adminTab='questions'; render();" class="px-4 py-2 rounded-xl font-bold text-xs transition-all ${adminTab === 'questions' ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-                                🎯 Soal Kuis
-                            </button>
-                            <button onclick="adminTab='kisi'; render();" class="px-4 py-2 rounded-xl font-bold text-xs transition-all ${adminTab === 'kisi' ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-                                📋 Kisi-Kisi
-                            </button>
-                            <button onclick="adminTab='students'; render();" class="px-4 py-2 rounded-xl font-bold text-xs transition-all ${adminTab === 'students' ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-                                🏆 Siswa & Leaderboard
-                            </button>
+                        <!-- Nav Admin -->
+                        <div class="flex items-center gap-1 bg-indigo-950 p-1.5 rounded-2xl overflow-x-auto max-w-full">
+                            <button onclick="switchAdminTab('materi')" class="admin-tab-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${adminActiveTab === 'materi' ? 'bg-indigo-600 text-white shadow' : 'text-indigo-300 hover:bg-indigo-800'}"><i data-lucide="book-open" class="w-4 h-4"><span>Kelola Materi & PDF</span></i></button>
+                            <button onclick="switchAdminTab('soal')" class="admin-tab-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${adminActiveTab === 'soal' ? 'bg-indigo-600 text-white shadow' : 'text-indigo-300 hover:bg-indigo-800'}"><i data-lucide="help-circle" class="w-4 h-4"><span>Kelola Soal</span></i></button>
+                            <button onclick="switchAdminTab('kisi')" class="admin-tab-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${adminActiveTab === 'kisi' ? 'bg-indigo-600 text-white shadow' : 'text-indigo-300 hover:bg-indigo-800'}"><i data-lucide="file-text" class="w-4 h-4"><span>Kelola Kisi-Kisi</span></i></button>
+                            <button onclick="switchAdminTab('leaderboard')" class="admin-tab-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${adminActiveTab === 'leaderboard' ? 'bg-indigo-600 text-white shadow' : 'text-indigo-300 hover:bg-indigo-800'}"><i data-lucide="trophy" class="w-4 h-4"><span>Leaderboard</span></i></button>
                         </div>
 
-                        <button onclick="adminLogout()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition-all">
-                            Keluar Admin
+                        <button onclick="handleLogout()" class="px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs flex items-center gap-1 transition">
+                            <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
                         </button>
                     </div>
                 </header>
 
-                <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6">
-                    ${adminTab === 'materials' ? renderAdminMaterials(chapters) : ''}
-                    ${adminTab === 'questions' ? renderAdminQuestions(questions, chapters) : ''}
-                    ${adminTab === 'kisi' ? renderAdminKisi(kisi) : ''}
-                    ${adminTab === 'students' ? renderAdminStudents(students) : ''}
+                <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6" id="admin-content-area">
+                    <!-- Dinamis render admin tab -->
                 </main>
             `;
+            renderAdminContent();
         }
 
-        function adminLogout() {
-            currentView = 'login';
-            saveSession();
-            render();
-            showToast("Keluar dari panel admin.");
+        function switchAdminTab(tab) {
+            adminActiveTab = tab;
+            renderAdminContent();
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.className = "admin-tab-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 text-indigo-300 hover:bg-indigo-800";
+            });
+            event.currentTarget.className = "admin-tab-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 bg-indigo-600 text-white shadow";
         }
 
-        // --- ADMIN: MATERIALS & GOOGLE DRIVE URL MANAGEMENT ---
-        function renderAdminMaterials(chapters) {
-            const ch = chapters.find(c => c.id === selectedAdminChapter) || chapters[0];
-            return `
-                <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-slate-800">Manajemen Ringkasan & Tautan Google Drive PDF</h2>
-                        <p class="text-slate-600 text-sm">Edit ringkasan teks dan masukkan URL Google Drive PDF (1-3 file per bab) yang langsung sinkron di portal siswa.</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <label class="text-sm font-bold text-slate-700">Pilih Bab:</label>
-                        <select onchange="selectedAdminChapter=parseInt(this.value); render();" class="px-4 py-2 rounded-xl border-2 border-slate-200 bg-white font-bold text-slate-800">
-                            ${chapters.map(c => `<option value="${c.id}" ${c.id === selectedAdminChapter ? 'selected' : ''}>Bab ${c.id}: ${c.title.substring(0, 22)}...</option>`).join('')}
-                        </select>
-                    </div>
+        function renderAdminContent() {
+            const area = document.getElementById('admin-content-area');
+            if (!area) return;
+
+            if (adminActiveTab === 'materi') {
+                renderAdminMateri(area);
+            } else if (adminActiveTab === 'soal') {
+                renderAdminSoal(area);
+            } else if (adminActiveTab === 'kisi') {
+                renderAdminKisi(area);
+            } else if (adminActiveTab === 'leaderboard') {
+                renderAdminLeaderboard(area);
+            }
+            lucide.createIcons();
+        }
+
+        // --- ADMIN: KELOLA MATERI & PDF GOOGLE DRIVE ---
+        function renderAdminMateri(container) {
+            const chapters = getData('tik_chapters');
+            let html = `
+                <div class="mb-6">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Kelola Rangkuman Materi & Tautan PDF Google Drive</h2>
+                    <p class="text-slate-600 text-sm">Ubah ringkasan atau tambahkan hingga 3 tautan PDF Google Drive per bab yang otomatis tersinkron ke siswa.</p>
                 </div>
+                <div class="space-y-6">
+            `;
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 bg-white rounded-3xl p-6 shadow-xl border border-slate-200">
-                        <h3 class="font-extrabold text-slate-800 text-lg mb-4">Edit Ringkasan Materi Bab ${ch.id}</h3>
-                        <form onsubmit="handleSaveSummary(event, ${ch.id})" class="space-y-4">
+            chapters.forEach(ch => {
+                let pdfInputs = '';
+                for (let i = 0; i < 3; i++) {
+                    const pdf = ch.pdfs[i] || { name: '', url: '' };
+                    pdfInputs += `
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+                            <input type="text" id="pdf-name-${ch.id}-${i}" value="${pdf.name}" placeholder="Nama File (Contoh: Bab1.pdf)" class="px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium">
+                            <input type="text" id="pdf-url-${ch.id}-${i}" value="${pdf.url}" placeholder="URL Google Drive (https://...)" class="px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium">
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="bg-white rounded-3xl shadow-md p-6 border-2 border-slate-100">
+                        <h3 class="font-extrabold text-lg text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="w-8 h-8 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center text-sm">${ch.id}</span>
+                            <span>Bab ${ch.id}: ${ch.title}</span>
+                        </h3>
+                        <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-1">Judul Bab:</label>
-                                <input type="text" id="edit-ch-title" value="${ch.title}" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 font-medium focus:border-sky-500 focus:outline-none">
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Judul Bab</label>
+                                <input type="text" id="ch-title-${ch.id}" value="${ch.title}" class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium focus:border-indigo-500 focus:outline-none">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-1">Ringkasan Materi:</label>
-                                <textarea id="edit-ch-summary" rows="8" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 font-medium focus:border-sky-500 focus:outline-none">${ch.summary}</textarea>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Ringkasan Materi</label>
+                                <textarea id="ch-summary-${ch.id}" rows="4" class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium focus:border-indigo-500 focus:outline-none content-andika">${ch.summary}</textarea>
                             </div>
-                            <button type="submit" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow transition-all">
-                                Simpan Perubahan Materi
-                            </button>
-                        </form>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Daftar PDF Google Drive (Maksimal 3 File)</label>
+                                ${pdfInputs}
+                            </div>
+                            <div class="flex justify-end pt-2">
+                                <button onclick="saveChapterChanges(${ch.id})" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs shadow transition flex items-center gap-1.5">
+                                    <i data-lucide="save" class="w-4 h-4"></i> Simpan Perubahan Bab ${ch.id}
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                `;
+            });
 
-                    <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-200 flex flex-col justify-between">
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function saveChapterChanges(id) {
+            let chapters = getData('tik_chapters');
+            let ch = chapters.find(c => c.id === id);
+            if (!ch) return;
+
+            ch.title = document.getElementById(`ch-title-${id}`).value;
+            ch.summary = document.getElementById(`ch-summary-${id}`).value;
+            
+            let newPdfs = [];
+            for (let i = 0; i < 3; i++) {
+                const name = document.getElementById(`pdf-name-${id}-${i}`).value.trim();
+                const url = document.getElementById(`pdf-url-${id}-${i}`).value.trim();
+                if (url) {
+                    newPdfs.push({ name: name || `Materi_Bab${id}_File${i+1}.pdf`, url: url });
+                }
+            }
+            ch.pdfs = newPdfs;
+
+            saveData('tik_chapters', chapters);
+            renderAdminContent();
+        }
+
+        // --- ADMIN: KELOLA SOAL KUIS ---
+        function renderAdminSoal(container) {
+            let html = `
+                <div class="mb-6">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Kelola Soal Kuis (Bab 1 - 6)</h2>
+                    <p class="text-slate-600 text-sm">Pilih Bab untuk melihat, mengedit, atau menambah soal kuis beserta stimulus dan penjelasannya.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            `;
+
+            for (let i = 1; i <= 6; i++) {
+                html += `
+                    <button onclick="renderAdminChapterQuestions(${i})" class="p-5 bg-white rounded-2xl border-2 border-slate-100 hover:border-indigo-400 shadow-sm transition text-left flex items-center justify-between">
                         <div>
-                            <h3 class="font-extrabold text-slate-800 text-lg mb-4">Tautan PDF Google Drive Bab ${ch.id}</h3>
-                            <div class="space-y-3 mb-6">
-                                ${ch.pdfs && ch.pdfs.length > 0 ? ch.pdfs.map((pdf, pIdx) => `
-                                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-                                        <div class="flex items-center justify-between mb-1">
-                                            <p class="font-bold text-xs text-slate-800 truncate">${pdf.name}</p>
-                                            <button onclick="handleDeletePdf(${ch.id}, ${pIdx})" class="text-rose-500 hover:text-rose-700 font-bold text-xs">Hapus</button>
-                                        </div>
-                                        <p class="text-[10px] text-sky-600 truncate">${pdf.url}</p>
-                                    </div>
-                                `).join('') : '<p class="text-xs text-slate-400 italic">Belum ada tautan PDF.</p>'}
-                            </div>
+                            <span class="text-xs font-bold text-indigo-600 uppercase">Bab ${i}</span>
+                            <h3 class="font-extrabold text-slate-800 text-base">Kelola Soal Bab ${i}</h3>
                         </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400"></i>
+                    </button>
+                `;
+            }
+            html += `</div>`;
+            container.innerHTML = html;
+        }
 
-                        <div class="pt-4 border-t border-slate-100">
-                            <h4 class="text-sm font-bold text-slate-700 mb-2">Tambah Tautan Google Drive Baru:</h4>
-                            <form onsubmit="handleAddDrivePdf(event, ${ch.id})" class="space-y-3">
-                                <div>
-                                    <input type="text" id="new-pdf-name" required placeholder="Nama File (cth: Ringkasan Bab 1.pdf)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium">
-                                </div>
-                                <div>
-                                    <input type="url" id="new-pdf-url" required placeholder="URL Google Drive (https://drive.google.com/...)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium">
-                                </div>
-                                <button type="submit" class="w-full py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-xs rounded-xl shadow transition-all">
-                                    🔗 Tambah & Sinkronkan Tautan
-                                </button>
-                            </form>
+        function renderAdminChapterQuestions(chapterId) {
+            const allQuestions = getData('tik_questions');
+            const questions = allQuestions[chapterId] || [];
+
+            let qListHtml = '';
+            questions.forEach((q, idx) => {
+                qListHtml += `
+                    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-extrabold text-indigo-600">Soal #${idx + 1} (ID: ${q.id})</span>
+                            <button onclick="deleteQuestion(${chapterId}, ${q.id})" class="text-rose-500 hover:text-rose-700 text-xs font-bold flex items-center gap-1">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i> Hapus
+                            </button>
                         </div>
+                        <p class="font-bold text-slate-800 text-sm mb-3">${q.stimulus}</p>
+                        <div class="space-y-1 mb-3">
+                            ${q.options.map((opt, oIdx) => `
+                                <div class="text-xs text-slate-600 flex items-center gap-2 ${oIdx === q.answer ? 'font-bold text-emerald-700' : ''}">
+                                    <span>${String.fromCharCode(65 + oIdx)}.</span> <span>${opt}</span> ${oIdx === q.answer ? '✅ (Jawaban Benar)' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded-xl border"><strong>Penjelasan:</strong> ${q.explanation}</p>
                     </div>
+                `;
+            });
+
+            const area = document.getElementById('admin-content-area');
+            area.innerHTML = `
+                <div class="mb-4 flex items-center justify-between">
+                    <button onclick="switchAdminTab('soal')" class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Daftar Bab Soal
+                    </button>
+                    <button onclick="openAddQuestionModal(${chapterId})" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs flex items-center gap-1.5 shadow">
+                        <i data-lucide="plus" class="w-4 h-4"></i> Tambah Soal Baru
+                    </button>
                 </div>
-            `;
-        }
-
-        function handleSaveSummary(e, chapterId) {
-            e.preventDefault();
-            const title = document.getElementById('edit-ch-title').value;
-            const summary = document.getElementById('edit-ch-summary').value;
-
-            let chapters = JSON.parse(localStorage.getItem('tik_chapters'));
-            let ch = chapters.find(c => c.id === chapterId);
-            if (ch) {
-                ch.title = title;
-                ch.summary = summary;
-                localStorage.setItem('tik_chapters', JSON.stringify(chapters));
-                showToast(`Ringkasan Bab ${chapterId} berhasil diperbarui secara real-time!`);
-                render();
-            }
-        }
-
-        function handleAddDrivePdf(e, chapterId) {
-            e.preventDefault();
-            const name = document.getElementById('new-pdf-name').value;
-            const url = document.getElementById('new-pdf-url').value;
-
-            let chapters = JSON.parse(localStorage.getItem('tik_chapters'));
-            let ch = chapters.find(c => c.id === chapterId);
-            if (!ch.pdfs) ch.pdfs = [];
-            if (ch.pdfs.length >= 3) {
-                showToast("Maksimal 3 tautan PDF per bab!", "error");
-                return;
-            }
-
-            ch.pdfs.push({ name, url });
-            localStorage.setItem('tik_chapters', JSON.stringify(chapters));
-            showToast(`Tautan ${name} berhasil ditambahkan dan disinkronkan ke siswa!`);
-            render();
-        }
-
-        function handleDeletePdf(chapterId, pdfIdx) {
-            let chapters = JSON.parse(localStorage.getItem('tik_chapters'));
-            let ch = chapters.find(c => c.id === chapterId);
-            ch.pdfs.splice(pdfIdx, 1);
-            localStorage.setItem('tik_chapters', JSON.stringify(chapters));
-            showToast("Tautan PDF berhasil dihapus.");
-            render();
-        }
-
-        // --- ADMIN: QUESTIONS MANAGEMENT ---
-        function renderAdminQuestions(questions, chapters) {
-            const chId = selectedAdminChapter;
-            const qList = questions[chId] || [];
-
-            return `
-                <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-slate-800">Manajemen Soal Kuis (Bab 1 - 6)</h2>
-                        <p class="text-slate-600 text-sm">Tambah, edit, atau hapus soal kuis beserta pilihan A-C dan penjelasannya.</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <select onchange="selectedAdminChapter=parseInt(this.value); render();" class="px-4 py-2 rounded-xl border-2 border-slate-200 bg-white font-bold text-slate-800">
-                            ${chapters.map(c => `<option value="${c.id}" ${c.id === chId ? 'selected' : ''}>Bab ${c.id}: ${c.title.substring(0, 22)}...</option>`).join('')}
-                        </select>
-                        <button onclick="openAddQuestionModal(${chId})" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow transition-all">
-                            + Tambah Soal Baru
-                        </button>
-                    </div>
-                </div>
-
+                <h3 class="text-xl font-extrabold text-slate-800 mb-4">Daftar Soal Bab ${chapterId} (${questions.length} Soal)</h3>
                 <div class="space-y-4">
-                    ${qList.map((q, qIdx) => `
-                        <div class="bg-white rounded-2xl p-5 shadow border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                            <div class="flex-1">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 font-extrabold text-xs rounded-md">Soal #${qIdx + 1}</span>
-                                    <span class="text-xs font-bold text-emerald-600">Jawaban Benar: Opsi ${['A','B','C'][q.answer]}</span>
-                                </div>
-                                <p class="font-extrabold text-slate-800 text-sm content-andika mb-2">${q.stimulus}</p>
-                                <p class="text-xs text-slate-500 italic">💡 Penjelasan: ${q.explanation}</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="openEditQuestionModal(${chId}, ${qIdx})" class="px-3 py-1.5 bg-sky-100 hover:bg-sky-200 text-sky-700 font-bold text-xs rounded-lg transition-all">
-                                    Edit
-                                </button>
-                                <button onclick="handleDeleteQuestion(${chId}, ${qIdx})" class="px-3 py-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs rounded-lg transition-all">
-                                    Hapus
-                                </button>
-                            </div>
-                        </div>
-                    `).join('')}
+                    ${qListHtml || '<p class="text-slate-400 italic">Belum ada soal untuk bab ini.</p>'}
                 </div>
-
-                <div id="question-modal-container"></div>
             `;
+            lucide.createIcons();
         }
 
         function openAddQuestionModal(chapterId) {
-            const container = document.getElementById('question-modal-container');
-            container.innerHTML = `
-                <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-                    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border-4 border-amber-300">
-                        <h3 class="text-lg font-extrabold text-slate-800 mb-4">Tambah Soal Baru Bab ${chapterId}</h3>
-                        <form onsubmit="handleSaveNewQuestion(event, ${chapterId})" class="space-y-3">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Stimulus / Pertanyaan:</label>
-                                <textarea id="new-q-stimulus" required rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium focus:outline-none focus:border-sky-500"></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan A:</label>
-                                <input type="text" id="new-q-opt0" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan B:</label>
-                                <input type="text" id="new-q-opt1" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan C:</label>
-                                <input type="text" id="new-q-opt2" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Jawaban Benar:</label>
-                                <select id="new-q-answer" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium bg-white">
-                                    <option value="0">Opsi A</option>
-                                    <option value="1">Opsi B</option>
-                                    <option value="2">Opsi C</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Penjelasan Jawaban:</label>
-                                <textarea id="new-q-exp" required rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium"></textarea>
-                            </div>
-                            <div class="flex justify-end gap-2 pt-3">
-                                <button type="button" onclick="document.getElementById('question-modal-container').innerHTML=''" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Batal</button>
-                                <button type="submit" class="px-4 py-2 bg-emerald-600 text-white font-bold text-xs rounded-xl shadow">Simpan Soal</button>
-                            </div>
-                        </form>
+            const area = document.getElementById('admin-content-area');
+            area.innerHTML = `
+                <div class="max-w-xl mx-auto bg-white rounded-3xl shadow-xl p-6 sm:p-8 border-2 border-indigo-200">
+                    <h3 class="text-xl font-extrabold text-slate-800 mb-4">Tambah Soal Baru - Bab ${chapterId}</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Stimulus / Pertanyaan Soal</label>
+                            <textarea id="new-q-stimulus" rows="3" placeholder="Tuliskan pertanyaan kuis di sini..." class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium focus:border-indigo-500 focus:outline-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pilihan A</label>
+                            <input type="text" id="new-q-opt0" placeholder="Pilihan jawaban A" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pilihan B</label>
+                            <input type="text" id="new-q-opt1" placeholder="Pilihan jawaban B" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pilihan C</label>
+                            <input type="text" id="new-q-opt2" placeholder="Pilihan jawaban C" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kunci Jawaban Benar</label>
+                            <select id="new-q-answer" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium bg-white">
+                                <option value="0">Pilihan A</option>
+                                <option value="1">Pilihan B</option>
+                                <option value="2">Pilihan C</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Penjelasan Jawaban</label>
+                            <textarea id="new-q-explanation" rows="2" placeholder="Penjelasan mengapa jawaban tersebut benar..." class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium focus:border-indigo-500 focus:outline-none"></textarea>
+                        </div>
+                        <div class="flex justify-end gap-2 pt-4">
+                            <button onclick="renderAdminChapterQuestions(${chapterId})" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs transition">Batal</button>
+                            <button onclick="saveNewQuestion(${chapterId})" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs shadow transition">Simpan Soal</button>
+                        </div>
                     </div>
                 </div>
             `;
+            lucide.createIcons();
         }
 
-        function handleSaveNewQuestion(e, chapterId) {
-            e.preventDefault();
-            const stimulus = document.getElementById('new-q-stimulus').value;
-            const opt0 = document.getElementById('new-q-opt0').value;
-            const opt1 = document.getElementById('new-q-opt1').value;
-            const opt2 = document.getElementById('new-q-opt2').value;
+        function saveNewQuestion(chapterId) {
+            const stimulus = document.getElementById('new-q-stimulus').value.trim();
+            const opt0 = document.getElementById('new-q-opt0').value.trim();
+            const opt1 = document.getElementById('new-q-opt1').value.trim();
+            const opt2 = document.getElementById('new-q-opt2').value.trim();
             const answer = parseInt(document.getElementById('new-q-answer').value);
-            const explanation = document.getElementById('new-q-exp').value;
+            const explanation = document.getElementById('new-q-explanation').value.trim();
 
-            let questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
-            if (!questions[chapterId]) questions[chapterId] = [];
+            if (!stimulus || !opt0 || !opt1 || !opt2) {
+                showToast("Mohon lengkapi pertanyaan dan pilihan jawaban!", "error");
+                return;
+            }
 
-            questions[chapterId].push({
-                id: Date.now(),
-                stimulus,
+            let allQuestions = getData('tik_questions');
+            if (!allQuestions[chapterId]) allQuestions[chapterId] = [];
+
+            const newId = Date.now();
+            allQuestions[chapterId].push({
+                id: newId,
+                stimulus: stimulus,
                 options: [opt0, opt1, opt2],
-                answer,
-                explanation
+                answer: answer,
+                explanation: explanation || "Bagus sekali! Tetap semangat belajar TIK."
             });
 
-            localStorage.setItem('tik_questions', JSON.stringify(questions));
-            showToast("Soal kuis baru berhasil ditambahkan!");
-            render();
+            saveData('tik_questions', allQuestions);
+            renderAdminChapterQuestions(chapterId);
         }
 
-        function openEditQuestionModal(chapterId, qIdx) {
-            let questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
-            const q = questions[chapterId][qIdx];
-
-            const container = document.getElementById('question-modal-container');
-            container.innerHTML = `
-                <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-                    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border-4 border-amber-300">
-                        <h3 class="text-lg font-extrabold text-slate-800 mb-4">Edit Soal #${qIdx + 1} Bab ${chapterId}</h3>
-                        <form onsubmit="handleUpdateQuestion(event, ${chapterId}, ${qIdx})" class="space-y-3">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Stimulus / Pertanyaan:</label>
-                                <textarea id="edit-q-stimulus" required rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">${q.stimulus}</textarea>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan A:</label>
-                                <input type="text" id="edit-q-opt0" value="${q.options[0]}" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan B:</label>
-                                <input type="text" id="edit-q-opt1" value="${q.options[1]}" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan C:</label>
-                                <input type="text" id="edit-q-opt2" value="${q.options[2]}" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Jawaban Benar:</label>
-                                <select id="edit-q-answer" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium bg-white">
-                                    <option value="0" ${q.answer === 0 ? 'selected' : ''}>Opsi A</option>
-                                    <option value="1" ${q.answer === 1 ? 'selected' : ''}>Opsi B</option>
-                                    <option value="2" ${q.answer === 2 ? 'selected' : ''}>Opsi C</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Penjelasan Jawaban:</label>
-                                <textarea id="edit-q-exp" required rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">${q.explanation}</textarea>
-                            </div>
-                            <div class="flex justify-end gap-2 pt-3">
-                                <button type="button" onclick="document.getElementById('question-modal-container').innerHTML=''" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Batal</button>
-                                <button type="submit" class="px-4 py-2 bg-sky-600 text-white font-bold text-xs rounded-xl shadow">Perbarui Soal</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            `;
+        function deleteQuestion(chapterId, qId) {
+            if (!confirm("Apakah Anda yakin ingin menghapus soal ini?")) return;
+            let allQuestions = getData('tik_questions');
+            allQuestions[chapterId] = allQuestions[chapterId].filter(q => q.id !== qId);
+            saveData('tik_questions', allQuestions);
+            renderAdminChapterQuestions(chapterId);
         }
 
-        function handleUpdateQuestion(e, chapterId, qIdx) {
-            e.preventDefault();
-            const stimulus = document.getElementById('edit-q-stimulus').value;
-            const opt0 = document.getElementById('edit-q-opt0').value;
-            const opt1 = document.getElementById('edit-q-opt1').value;
-            const opt2 = document.getElementById('edit-q-opt2').value;
-            const answer = parseInt(document.getElementById('edit-q-answer').value);
-            const explanation = document.getElementById('edit-q-exp').value;
-
-            let questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
-            questions[chapterId][qIdx] = {
-                id: questions[chapterId][qIdx].id,
-                stimulus,
-                options: [opt0, opt1, opt2],
-                answer,
-                explanation
-            };
-
-            localStorage.setItem('tik_questions', JSON.stringify(questions));
-            showToast("Soal kuis berhasil diperbarui!");
-            render();
-        }
-
-        function handleDeleteQuestion(chapterId, qIdx) {
-            if (confirm("Yakin ingin menghapus soal ini?")) {
-                let questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
-                questions[chapterId].splice(qIdx, 1);
-                localStorage.setItem('tik_questions', JSON.stringify(questions));
-                showToast("Soal berhasil dihapus.");
-                render();
-            }
-        }
-
-        // --- ADMIN: KISI-KISI MANAGEMENT ---
-        function renderAdminKisi(kisi) {
-            return `
+        // --- ADMIN: KELOLA KISI-KISI ---
+        function renderAdminKisi(container) {
+            const kisi = getData('tik_kisi');
+            let html = `
                 <div class="mb-6">
-                    <h2 class="text-2xl font-extrabold text-slate-800">Manajemen Kisi-Kisi PSAS 1</h2>
-                    <p class="text-slate-600 text-sm">Sesuaikan poin-poin kisi-kisi ujian untuk setiap bab secara real-time.</p>
+                    <h2 class="text-2xl font-extrabold text-slate-800">Kelola Kisi-Kisi PSAS 1</h2>
+                    <p class="text-slate-600 text-sm">Sesuaikan poin-poin kisi-kisi ujian agar selalu selaras dengan materi terbaru.</p>
                 </div>
-
                 <div class="space-y-6">
-                    ${kisi.map((item, idx) => `
-                        <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-200">
-                            <form onsubmit="handleSaveKisi(event, ${idx})" class="space-y-3">
-                                <div class="flex items-center gap-3">
-                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-extrabold text-xs rounded-full">${item.chapter}</span>
-                                    <input type="text" id="kisi-title-${idx}" value="${item.title}" class="font-extrabold text-slate-800 text-lg border-b border-transparent hover:border-slate-300 focus:border-sky-500 focus:outline-none flex-1">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-1">Poin Kisi-Kisi (Pisahkan dengan baris baru):</label>
-                                    <textarea id="kisi-points-${idx}" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-medium focus:outline-none focus:border-sky-500">${item.points.join('\n')}</textarea>
-                                </div>
-                                <div class="flex justify-end">
-                                    <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow transition-all">
-                                        Simpan Kisi-Kisi ${item.chapter}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    `).join('')}
-                </div>
             `;
-        }
 
-        function handleSaveKisi(e, idx) {
-            e.preventDefault();
-            const title = document.getElementById(`kisi-title-${idx}`).value;
-            const pointsText = document.getElementById(`kisi-points-${idx}`).value;
-            const points = pointsText.split('\n').filter(p => p.trim() !== '');
-
-            let kisi = JSON.parse(localStorage.getItem('tik_kisi'));
-            kisi[idx].title = title;
-            kisi[idx].points = points;
-            localStorage.setItem('tik_kisi', JSON.stringify(kisi));
-            showToast(`Kisi-kisi ${kisi[idx].chapter} berhasil diperbarui secara real-time!`);
-            render();
-        }
-
-        // --- ADMIN: STUDENTS MONITOR ---
-        function renderAdminStudents(students) {
-            return `
-                <div class="mb-6 flex items-center justify-between">
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-slate-800">Monitor Siswa & Leaderboard</h2>
-                        <p class="text-slate-600 text-sm">Pantau aktivitas dan skor seluruh siswa bernuansa islami.</p>
+            kisi.forEach((item, idx) => {
+                html += `
+                    <div class="bg-white rounded-3xl shadow-md p-6 border-2 border-slate-100">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-8 h-8 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center text-sm font-bold">${idx + 1}</span>
+                            <input type="text" id="kisi-chapter-${idx}" value="${item.chapter}" class="w-28 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold">
+                            <input type="text" id="kisi-title-${idx}" value="${item.title}" class="flex-1 px-3 py-1.5 rounded-xl border border-slate-200 text-sm font-bold">
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <label class="block text-xs font-bold text-slate-500 uppercase">Poin-poin Kisi-kisi (Pisahkan dengan baris baru)</label>
+                            <textarea id="kisi-points-${idx}" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-medium content-andika">${item.points.join('\n')}</textarea>
+                        </div>
+                        <div class="flex justify-end">
+                            <button onclick="saveKisiChanges(${idx})" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs shadow transition flex items-center gap-1.5">
+                                <i data-lucide="save" class="w-4 h-4"></i> Simpan Kisi-Kisi Ini
+                            </button>
+                        </div>
                     </div>
-                    <button onclick="handleResetLeaderboard()" class="px-4 py-2 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs rounded-xl transition-all">
-                        Reset Poin Leaderboard
-                    </button>
-                </div>
+                `;
+            });
 
-                <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function saveKisiChanges(idx) {
+            let kisi = getData('tik_kisi');
+            kisi[idx].chapter = document.getElementById(`kisi-chapter-${idx}`).value;
+            kisi[idx].title = document.getElementById(`kisi-title-${idx}`).value;
+            const ptsText = document.getElementById(`kisi-points-${idx}`).value;
+            kisi[idx].points = ptsText.split('\n').filter(p => p.trim() !== '');
+
+            saveData('tik_kisi', kisi);
+            renderAdminContent();
+        }
+
+        // --- ADMIN: LEADERBOARD MONITOR ---
+        function renderAdminLeaderboard(container) {
+            let lb = getData('tik_leaderboard');
+            lb.sort((a, b) => b.score - a.score);
+
+            let rows = '';
+            lb.forEach((u, idx) => {
+                rows += `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-4 font-bold text-slate-700">#${idx + 1}</td>
+                        <td class="p-4 flex items-center gap-3">
+                            <span class="text-2xl">${u.avatar || '🐱'}</span>
+                            <span class="font-bold text-slate-800">${u.name}</span>
+                        </td>
+                        <td class="p-4 font-medium text-slate-600">Kelas ${u.class}</td>
+                        <td class="p-4 font-extrabold text-amber-600">${u.score} Poin</td>
+                        <td class="p-4 text-right">
+                            <button onclick="resetUserScore('${u.name}')" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-bold transition">Reset Poin</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden border-2 border-slate-100 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-xl font-extrabold text-slate-800">Monitor Leaderboard Siswa</h2>
+                            <p class="text-slate-500 text-sm">Pantau perolehan skor kuis seluruh siswa secara real-time.</p>
+                        </div>
+                        <button onclick="resetAllScores()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs shadow transition">Reset Seluruh Skor</button>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase">
                                     <th class="p-4">Rank</th>
                                     <th class="p-4">Nama Siswa</th>
                                     <th class="p-4">Kelas</th>
-                                    <th class="p-4">Avatar</th>
-                                    <th class="p-4 text-right">Total Poin</th>
+                                    <th class="p-4">Skor</th>
+                                    <th class="p-4 text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 text-sm font-medium">
-                                ${students.map((st, idx) => `
-                                    <tr class="hover:bg-slate-50">
-                                        <td class="p-4 font-extrabold text-slate-600">#${idx + 1}</td>
-                                        <td class="p-4 font-bold text-slate-800">${st.name}</td>
-                                        <td class="p-4 text-slate-600">${st.class}</td>
-                                        <td class="p-4 text-2xl">${st.avatar}</td>
-                                        <td class="p-4 text-right font-extrabold text-amber-600">${st.score} ⭐</td>
-                                    </tr>
-                                `).join('')}
+                            <tbody>
+                                ${rows || '<tr><td colspan="5" class="p-6 text-center text-slate-400">Belum ada data siswa di leaderboard.</td></tr>'}
                             </tbody>
                         </table>
                     </div>
                 </div>
             `;
+            lucide.createIcons();
         }
 
-        function handleResetLeaderboard() {
-            if (confirm("Yakin ingin mereset seluruh skor siswa?")) {
-                localStorage.removeItem('tik_students');
-                initStorage();
-                showToast("Leaderboard berhasil direset.");
-                render();
-            }
+        function resetUserScore(name) {
+            if (!confirm(`Reset skor untuk ${name}?`)) return;
+            let lb = getData('tik_leaderboard');
+            let u = lb.find(item => item.name.toLowerCase() === name.toLowerCase());
+            if (u) u.score = 0;
+            saveData('tik_leaderboard', lb);
+            renderAdminContent();
         }
 
-        // Initial Boot
-        window.onload = function() {
-            render();
-        };
+        function resetAllScores() {
+            if (!confirm("Apakah Anda yakin ingin mereset seluruh skor semua siswa menjadi 0?")) return;
+            let lb = getData('tik_leaderboard');
+            lb.forEach(u => u.score = 0);
+            saveData('tik_leaderboard', lb);
+            renderAdminContent();
+        }
     </script>
 </body>
 </html>
