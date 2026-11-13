@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Belajar & Admin TIK Kelas 3 SD</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins & Andika for kids -->
+    <link href="https://fonts.googleapis.com/css2?family=Andika&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #fef3c7 50%, #fce7f3 100%);
+            min-height: 100vh;
+        }
+        .content-andika {
+            font-family: 'Andika', sans-serif;
+            line-height: 1.45;
+            font-size: 1.12rem;
+        }
+        .bounce-gentle {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-amber-300 selection:text-amber-900">
+
+    <!-- APP ROOT CONTAINER -->
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Dynamic views rendered via JavaScript -->
+    </div>
+
+    <!-- NOTIFICATION MODAL TOAST -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- JAVASCRIPT APPLICATION CORE -->
+    <script>
+        // --- DEFAULT DATA SEEDING ---
+        const DEFAULT_CHAPTERS = [
+            {
+                id: 1,
+                title: "Peran Komputer & Tata Tertib Laboratorium",
+                summary: "Komputer adalah alat canggih ciptaan manusia untuk membantu belajar di sekolah, kasir swalayan, ATM bank, dan bandara. Kita wajib bersyukur kepada Tuhan Yang Maha Esa atas nikmat akal dan ilmu pengetahuan.\n\nDi lab komputer, kita wajib membaca basmalah, menjaga kebersihan, tidak membawa makanan/minuman, duduk dengan tertib, dan dilarang berlari-lari.",
+                pdfs: [
+                    { name: "Materi_Bab1_Peran_Komputer.pdf", url: "https://drive.google.com/file/d/sample-bab1/view?usp=sharing" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Hardware, Software, Input, Process, Output & Konsep IPO",
+                summary: "Hardware adalah perangkat fisik (keyboard, mouse, monitor, CPU, printer). Software adalah aplikasi (Windows, Paint, Word, Chrome).\n\nHardware dibagi: Input Device (keyboard, mouse), Process Device (CPU), Output Device (monitor, printer). Konsep IPO: Input (Bahan) -> Process (Pengolahan) -> Output (Hasil). Contoh: Pembuatan es teh manis.",
+                pdfs: [
+                    { name: "Materi_Bab2_Hardware_IPO.pdf", url: "https://drive.google.com/file/d/sample-bab2/view?usp=sharing" }
+                ]
+            },
+            {
+                id: 3,
+                title: "Menyalakan, Mematikan Komputer, Mouse, Keyboard & Desktop",
+                summary: "Cara menyalakan: Colok kabel -> Tombol CPU -> Tombol Monitor. Cara mematikan (Shutdown): Tutup aplikasi -> Start -> Power -> Shut down.\n\nKenali Mouse (tetikus), Keyboard (papan ketik), dan Desktop (latar utama layar setelah komputer menyala). Jangan mencabut kabel saat komputer masih menyala.",
+                pdfs: [
+                    { name: "Materi_Bab3_Navigasi_Komputer.pdf", url: "https://drive.google.com/file/d/sample-bab3/view?usp=sharing" }
+                ]
+            },
+            {
+                id: 4,
+                title: "Folder, Save, Save As, Open, Rename File",
+                summary: "File adalah dokumen digital. Folder adalah wadah pengelompokan file agar rapi.\n\nPerintah dasar: Save (simpan), Save As (nama baru), Open (buka), Rename (ganti nama), Copy (salin), Cut (pindah), Paste (tempel). Catatan: File tidak bisa di-rename jika sedang dibuka.",
+                pdfs: [
+                    { name: "Materi_Bab4_File_Folder.pdf", url: "https://drive.google.com/file/d/sample-bab4/view?usp=sharing" }
+                ]
+            },
+            {
+                id: 5,
+                title: "Urutan Langkah & Algoritma Sederhana",
+                summary: "Algoritma adalah susunan langkah penyelesaian masalah secara logis, teratur, dan runtut (tidak boleh dibolak-balik).\n\nContoh: Urutan langkah mencuci tangan. Debugging adalah proses perbaikan pada urutan langkah yang keliru agar kembali benar.",
+                pdfs: [
+                    { name: "Materi_Bab5_Algoritma.pdf", url: "https://drive.google.com/file/d/sample-bab5/view?usp=sharing" }
+                ]
+            },
+            {
+                id: 6,
+                title: "Mengenal Aplikasi Microsoft Paint",
+                summary: "Paint adalah aplikasi untuk menggambar, melukis, dan mewarnai digital.\n\nMengenal Tool: Pencil (garis bebas), Eraser (penghapus), Fill with Color (kaleng cat warna), Text (huruf A untuk judul), Brushes (kuas lukis).",
+                pdfs: [
+                    { name: "Materi_Bab6_MS_Paint.pdf", url: "https://drive.google.com/file/d/sample-bab6/view?usp=sharing" }
+                ]
+            }
+        ];
+
+        const DEFAULT_KISI_KISI = [
+            { chapter: 'Bab 1', title: 'Peran Komputer & Lab', points: ['Pemanfaatan komputer di berbagai bidang (Sekolah, Swalayan, Bank, Bandara).', 'Wujud rasa syukur atas nikmat akal & ilmu pengetahuan.', 'Tata tertib keselamatan dan kebersihan di laboratorium komputer.'] },
+            { chapter: 'Bab 2', title: 'Hardware & Siklus IPO', points: ['Perbedaan nyata Hardware dan Software aplikasi.', 'Pembagian Hardware: Input Device, Process Device, Output Device.', 'Siklus kerja IPO (Input - Process - Output) dalam kehidupan sehari-hari.'] },
+            { chapter: 'Bab 3', title: 'Menyalakan & Navigasi', points: ['Urutan benar menyalakan dan mematikan (Shutdown) komputer.', 'Fungsi utama mouse (tetikus) dan keyboard (papan ketik).', 'Mengenal tampilan utama Desktop setelah komputer menyala.'] },
+            { chapter: 'Bab 4', title: 'Pengelolaan Berkas Digital', points: ['Perbedaan mendasar antara File dokumen dan Folder penyimpanan.', 'Perintah dasar berkas: Save, Save As, Open, Rename, Copy, Cut, Paste.', 'Aturan penting saat mengganti nama file (tidak boleh sedang dibuka).'] },
+            { chapter: 'Bab 5', title: 'Algoritma Sederhana', points: ['Pengertian algoritma sebagai urutan langkah logis dan runtut.', 'Contoh penerapan algoritma dalam kegiatan sehari-hari (Mencuci Tangan).', 'Pengertian Debugging untuk memperbaiki urutan langkah yang keliru.'] },
+            { chapter: 'Bab 6', title: 'Microsoft Paint', points: ['Fungsi aplikasi Microsoft Paint untuk seni digital.', 'Fungsi ikon Tool utama: Pencil, Eraser, Fill with Color, Text, Brushes.'] }
+        ];
+
+        const DEFAULT_QUESTIONS = {
+            1: [
+                { id: 101, stimulus: "Ibu guru menggunakan komputer di sekolah untuk membuat bahan materi belajar siswa. Komputer membantu manusia bekerja lebih...", options: ["Lambat dan sulit", "Cepat dan mudah", "Rumit dan mahal"], answer: 1, explanation: "Komputer diciptakan untuk membantu manusia bekerja lebih cepat dan mudah di berbagai tempat." },
+                { id: 102, stimulus: "Saat berbelanja di swalayan atau supermarket, kasir menggunakan komputer untuk...", options: ["Menghitung total harga belanjaan", "Menerbangkan pesawat", "Mengambil uang tunai"], answer: 0, explanation: "Komputer di toko/swalayan membantu kasir menghitung total belanjaan pembeli dengan cepat." },
+                { id: 103, stimulus: "Sebelum mulai belajar di lab komputer, hal pertama yang sebaiknya kita biasakan adalah...", options: ["Langsung berlari ke komputer", "Membaca doa atau Basmalah", "Makan dan minum kue"], answer: 1, explanation: "Kita harus membiasakan membaca doa atau Basmalah agar ilmu yang didapat menjadi berkah." },
+                { id: 104, stimulus: "Bolehkah kita membawa makanan atau minuman manis ke dekat perangkat komputer di lab?", options: ["Boleh, asal tidak tumpah", "Boleh diminum saat haus", "Tidak boleh, karena bisa merusak mesin jika tumpah"], answer: 2, explanation: "Dilarang membawa makanan/minuman ke dekat komputer supaya mesin tidak rusak terkena tumpahan air." },
+                { id: 105, stimulus: "Di dalam ruang lab komputer, sikap yang benar adalah...", options: ["Berlarian dan dorong-dorongan", "Duduk dengan tertib dan menggunakan komputer hati-hati", "Mencabut kabel komputer teman"], answer: 1, explanation: "Kita harus duduk dengan tertib, berhati-hati, dan merapikan kembali kursi setelah selesai belajar." },
+                { id: 106, stimulus: "Sebagai manusia, kita wajib bersyukur kepada Tuhan Yang Maha Esa atas nikmat akal dan...", options: ["Ilmu pengetahuan menciptakan komputer", "Permainan video game seharian", "Kabel listrik yang panjang"], answer: 0, explanation: "Kita wajib bersyukur kepada Tuhan Yang Maha Esa atas nikmat akal dan ilmu pengetahuan." },
+                { id: 107, stimulus: "Mesin canggih ciptaan manusia yang sangat berguna untuk mengolah data disebut...", options: ["Televisi rusak", "Komputer", "Sepeda motor"], answer: 1, explanation: "Komputer adalah benda canggih ciptaan manusia yang sangat berguna." },
+                { id: 108, stimulus: "Mesin ATM di bank yang membantu orang dewasa mengambil uang tunai dengan aman merupakan pemanfaatan...", options: ["Komputer", "Kipas angin", "Kompor gas"], answer: 0, explanation: "Mesin ATM adalah salah satu bentuk komputer khusus di bank." },
+                { id: 109, stimulus: "Di bandara, komputer sangat membantu petugas dalam...", options: ["Mengatur jadwal terbang pesawat agar tidak bertabrakan", "Menjual es teh manis", "Memasak makanan penumpang"], answer: 0, explanation: "Komputer di bandara mengatur jadwal terbang pesawat agar aman dan teratur." },
+                { id: 110, stimulus: "Setelah selesai belajar di lab komputer, kita harus...", options: ["Meninggalkan meja berantakan", "Merapikan kembali kursi serta meja", "Merusak mouse komputer"], answer: 1, explanation: "Kita wajib merapikan kembali kursi dan meja setelah selesai belajar." },
+                { id: 111, stimulus: "Sikap berlari-lari di dalam ruang lab komputer sangat berbahaya karena...", options: ["Membuat lantai mengkilap", "Bisa tersandung atau merusak peralatan lab", "Membuat komputer cepat dingin"], answer: 1, explanation: "Berlari-lari di lab berbahaya karena bisa menyebabkan kecelakaan atau kerusakan alat." },
+                { id: 112, stimulus: "Komputer di sekolah membantu siswa untuk...", options: ["Bermain game tanpa henti", "Belajar ilmu baru dengan asyik", "Tidur di kelas"], answer: 1, explanation: "Di sekolah, komputer membantu siswa belajar ilmu baru." },
+                { id: 113, stimulus: "Mengapa kita tidak boleh sembarangan menarik kabel komputer?", options: ["Karena kabel bisa putus dan berbahaya", "Karena kabel rasanya manis", "Karena kabel adalah makanan komputer"], answer: 0, explanation: "Menarik kabel sembarangan sangat berbahaya dan dapat merusak aliran listrik." },
+                { id: 114, stimulus: "Siapakah pencipta akal manusia sehingga mampu membuat komputer canggih?", options: ["Robot canggih", "Tuhan Yang Maha Esa", "Ilmuwan tanpa batas"], answer: 1, explanation: "Kita wajib bersyukur kepada Tuhan Yang Maha Esa atas nikmat akal." },
+                { id: 115, stimulus: "Apa akibat jika tumpahan air minum mengenai CPU atau keyboard komputer?", options: ["Komputer menjadi wangi", "Komputer basah dan bisa rusak konslet", "Komputer menyala sendiri"], answer: 1, explanation: "Air dapat menyebabkan korsleting dan merusak komponen elektronik komputer." }
+            ],
+            2: [
+                { id: 201, stimulus: "Komponen fisik komputer yang wujudnya nyata, bisa dilihat, dan bisa disentuh dengan tangan disebut...", options: ["Software", "Hardware", "Brainware"], answer: 1, explanation: "Hardware adalah perangkat keras komputer yang berwujud nyata dan bisa disentuh." },
+                { id: 202, stimulus: "Contoh perangkat keras (hardware) komputer di bawah ini adalah...", options: ["Microsoft Paint dan Windows", "Keyboard, mouse, dan monitor", "Google Chrome web browser"], answer: 1, explanation: "Keyboard, mouse, dan monitor adalah contoh hardware yang bisa disentuh." },
+                { id: 203, stimulus: "Program atau aplikasi yang ada di dalam komputer (tidak bisa disentuh fisiknya) disebut...", options: ["Hardware", "Software", "Floppy Disk"], answer: 1, explanation: "Software adalah program atau aplikasi digital yang berjalan di dalam komputer." },
+                { id: 204, stimulus: "Contoh perangkat lunak (software) adalah...", options: ["Printer dan CPU", "Microsoft Paint dan Google Chrome", "Mouse dan Kabel Power"], answer: 1, explanation: "Paint dan Google Chrome adalah contoh program aplikasi (software)." },
+                { id: 205, stimulus: "Alat untuk memasukkan data atau perintah ke dalam komputer disebut...", options: ["Output Device", "Process Device", "Input Device"], answer: 2, explanation: "Input Device adalah alat masukan seperti keyboard dan mouse." },
+                { id: 206, stimulus: "Otak utama komputer yang mengolah semua data dan terletak di dalam kotak CPU disebut...", options: ["Process Device", "Output Device", "Input Device"], answer: 0, explanation: "Process Device adalah bagian pemroses data yang ada di dalam CPU." },
+                { id: 207, stimulus: "Contoh alat keluaran (output device) yang menampilkan gambar dan tulisan adalah...", options: ["Keyboard", "Monitor", "Mouse"], answer: 1, explanation: "Monitor adalah alat keluaran untuk menampilkan hasil kerja di layar." },
+                { id: 208, stimulus: "Printer termasuk ke dalam perangkat keras jenis...", options: ["Input Device", "Output Device", "Process Device"], answer: 1, explanation: "Printer adalah output device untuk mencetak tulisan ke atas kertas." },
+                { id: 209, stimulus: "Dalam konsep siklus kerja komputer (IPO), urutan yang benar adalah...", options: ["Process -> Output -> Input", "Input -> Process -> Output", "Output -> Input -> Process"], answer: 1, explanation: "Siklus komputer berurutan dari Input (masukan), Process (pengolahan), lalu Output (hasil)." },
+                { id: 210, stimulus: "Pada pembuatan es teh manis, yang bertindak sebagai Input (bahan awal) adalah...", options: ["Segelas es teh siap diminum", "Mengaduk gula dengan air hangat", "Teh, gula, air hangat, dan es batu"], answer: 2, explanation: "Teh, gula, air, dan es adalah bahan masukan (Input)." },
+                { id: 211, stimulus: "Kegiatan mengaduk gula dan teh dengan air hangat dalam pembuatan es teh merupakan tahap...", options: ["Input", "Process", "Output"], answer: 1, explanation: "Pengolahan bahan atau pencampuran disebut Process." },
+                { id: 212, stimulus: "Segelas es teh manis segar yang siap diminum merupakan hasil akhir atau...", options: ["Input", "Process", "Output"], answer: 2, explanation: "Hasil akhir dari siklus adalah Output." },
+                { id: 213, stimulus: "Keyboard (papan ketik) digunakan oleh pengguna untuk mengetik huruf. Perangkat ini termasuk...", options: ["Input Device", "Output Device", "Software"], answer: 0, explanation: "Keyboard adalah alat masukan (input device)." },
+                { id: 214, stimulus: "Manakah di bawah ini yang merupakan perangkat lunak sistem operasi komputer?", options: ["Microsoft Windows", "Kabel LAN", "Mouse Logitech"], answer: 0, explanation: "Windows adalah software sistem operasi utama komputer." },
+                { id: 215, stimulus: "Apa kepanjangan dari singkatan IPO dalam komputer?", options: ["Internet Program Online", "Input, Process, Output", "Instalasi Printer Otomatis"], answer: 1, explanation: "IPO singkatan dari Input, Process, Output." }
+            ],
+            3: [
+                { id: 301, stimulus: "Urutan pertama yang harus diperhatikan sebelum menyalakan komputer adalah...", options: ["Menyalakan monitor dulu", "Memastikan kabel listrik komputer tercolok aman ke stopkontak", "Langsung menekan tombol restart"], answer: 1, explanation: "Pastikan kabel listrik sudah tercolok dengan aman sebelum menyalakan komputer." },
+                { id: 302, stimulus: "Tombol power pada perangkat apa yang ditekan terlebih dahulu saat menyalakan komputer?", options: ["Layar monitor", "Kotak CPU", "Printer"], answer: 1, explanation: "Kita menekan tombol power pada kotak CPU terlebih dahulu, baru kemudian monitor." },
+                { id: 303, stimulus: "Sebelum mematikan komputer, hal penting yang harus dilakukan adalah...", options: ["Mencabut kabel secara paksa", "Menutup semua aplikasi atau jendela program yang terbuka", "Memukul layar monitor"], answer: 1, explanation: "Kita harus menutup semua aplikasi terlebih dahulu sebelum proses shut down." },
+                { id: 304, stimulus: "Di manakah letak menu Start untuk mulai mematikan komputer?", options: ["Di pojok kanan atas", "Di pojok kiri bawah layar", "Di tengah-tengah keyboard"], answer: 1, explanation: "Menu Start terletak di pojok kiri bawah layar monitor." },
+                { id: 305, stimulus: "Setelah mengklik menu Start, tombol apa yang dipilih untuk mematikan komputer dengan aman?", options: ["Restart", "Shut down", "Sleep"], answer: 1, explanation: "Pilih tombol Power, lalu klik Shut down." },
+                { id: 306, stimulus: "Bolehkah kita langsung mencabut kabel listrik saat komputer masih menyala?", options: ["Boleh, agar cepat", "Boleh, jika sudah malam", "Tidak boleh, bisa merusak sistem komputer"], answer: 2, explanation: "Jangan langsung mencabut kabel listrik saat komputer masih menyala karena berbahaya bagi data." },
+                { id: 307, stimulus: "Alat kecil mirip tikus yang digerakkan tangan untuk mengarahkan kursor di layar disebut...", options: ["Keyboard", "Mouse", "Speaker"], answer: 1, explanation: "Mouse (tetikus) adalah alat pengarah kursor di layar." },
+                { id: 308, stimulus: "Papan yang berisi banyak tombol huruf dan angka untuk mengetik kalimat disebut...", options: ["Mouse", "Keyboard", "Flashdisk"], answer: 1, explanation: "Keyboard adalah papan ketik untuk memasukkan teks." },
+                { id: 309, stimulus: "Tampilan gambar latar belakang utama di layar monitor setelah komputer selesai dinyalakan disebut...", options: ["Desktop", "Wallpaper dinding", "Folder sampah"], answer: 0, explanation: "Desktop adalah layar utama sistem komputer setelah booting selesai." },
+                { id: 310, stimulus: "Mengapa kita harus menunggu lampu CPU dan layar mati total sebelum merapikan meja?", options: ["Agar komputer benar-benar aman dan mati sempurna", "Supaya lampu kamar terang", "Agar listrik di rumah padam"], answer: 0, explanation: "Menunggu lampu padam total memastikan proses shutdown selesai dengan aman." },
+                { id: 311, stimulus: "Apa fungsi tanda panah (kursor) di layar monitor?", options: ["Untuk menulis di buku tulis", "Untuk mengarahkan dan mengeklik sesuatu di layar", "Untuk mencetak gambar di kertas"], answer: 1, explanation: "Kursor digerakkan mouse untuk memilih dan mengeklik objek di layar." },
+                { id: 312, stimulus: "Bagaimana cara menyalakan layar monitor setelah menekan tombol CPU?", options: ["Menekan tombol power pada layar monitor", "Meniup layar monitor", "Menggoyang-goyang kabel mouse"], answer: 0, explanation: "Setelah CPU menyala, kita tekan tombol power pada layar monitor." },
+                { id: 313, stimulus: "Di dalam keyboard terdapat tombol-tombol yang berisi...", options: ["Huruf, angka, dan simbol khusus", "Gambar pemandangan alam", "Lagu anak-anak"], answer: 0, explanation: "Keyboard berisi tombol huruf, angka, dan tombol perintah." },
+                { id: 314, stimulus: "Apa yang dimaksud dengan proses shutdown komputer?", options: ["Proses menyalakan komputer", "Proses mematikan komputer secara aman", "Proses mencetak gambar ke printer"], answer: 1, explanation: "Shutdown adalah prosedur resmi untuk mematikan komputer." },
+                { id: 315, stimulus: "Setelah komputer menyala, kita akan melihat tampilan utama Windows yang dinamakan...", options: ["Desktop", "Paint", "Notepad"], answer: 0, explanation: "Desktop adalah tampilan awal sistem operasi." }
+            ],
+            4: [
+                { id: 401, stimulus: "Hasil kerja atau dokumen digital yang kita buat di komputer (seperti cerita ketikan atau gambar) disebut...", options: ["Folder", "File", "Kabel"], answer: 1, explanation: "File adalah dokumen digital hasil kerja kita." },
+                { id: 402, stimulus: "Kotak penyimpanan atau wadah digital untuk mengelompokkan berbagai file agar rapi disebut...", options: ["File", "Folder", "Monitor"], answer: 1, explanation: "Folder adalah wadah untuk merapikan kumpulan file." },
+                { id: 403, stimulus: "Perintah pada komputer untuk merekam atau menyimpan hasil pekerjaan baru agar tidak hilang adalah...", options: ["Open", "Save", "Delete"], answer: 1, explanation: "Save adalah perintah untuk menyimpan dokumen baru." },
+                { id: 404, stimulus: "Perintah untuk menyimpan dokumen dengan nama baru atau di tempat berbeda adalah...", options: ["Save As", "Rename", "Cut"], answer: 0, explanation: "Save As digunakan untuk menyimpan dengan nama baru atau lokasi lain." },
+                { id: 405, stimulus: "Perintah komputer untuk membuka kembali dokumen lama yang sudah pernah disimpan adalah...", options: ["Save", "Open", "New"], answer: 1, explanation: "Open adalah perintah untuk membuka file yang sudah ada." },
+                { id: 406, stimulus: "Perintah untuk mengganti nama suatu file atau folder agar sesuai dengan isinya disebut...", options: ["Copy", "Rename", "Paste"], answer: 1, explanation: "Rename adalah perintah untuk mengganti nama file/folder." },
+                { id: 407, stimulus: "Perintah pada komputer untuk menyalin atau menggandakan file tanpa menghilangkan file asli adalah...", options: ["Cut", "Copy", "Delete"], answer: 1, explanation: "Copy berfungsi menyalin file menjadi ganda." },
+                { id: 408, stimulus: "Perintah untuk memindahkan file dari tempat lama ke tempat baru sehingga file di tempat lama hilang adalah...", options: ["Copy", "Cut", "Save"], answer: 1, explanation: "Cut berfungsi memindahkan file." },
+                { id: 409, stimulus: "Perintah untuk menempelkan atau memunculkan kembali file yang sudah di-Copy atau di-Cut adalah...", options: ["Paste", "Rename", "Open"], answer: 0, explanation: "Paste adalah pasangan dari Copy atau Cut untuk menempelkan file." },
+                { id: 410, stimulus: "Aturan penting: Sebuah file TIDAK BISA diganti namanya (rename) jika...", options: ["File tersebut berukuran besar", "File tersebut sedang dalam keadaan dibuka oleh program lain", "File disimpan di dalam folder biru"], answer: 1, explanation: "Kita harus menutup aplikasi yang memakai file tersebut sebelum melakukan rename." },
+                { id: 411, stimulus: "Apa perbedaan utama antara File dan Folder?", options: ["File adalah wadah, Folder adalah isinya", "File adalah dokumen digital, Folder adalah kotak penyimpanannya", "Tidak ada bedanya sama sekali"], answer: 1, explanation: "File adalah isinya, sedangkan folder adalah wadah penyimpannya." },
+                { id: 412, stimulus: "Jika kita ingin membuat duplikat (salinan) cerita tanpa menghapus file aslinya, kita menggunakan...", options: ["Cut lalu Paste", "Copy lalu Paste", "Delete lalu Save"], answer: 1, explanation: "Copy dan Paste akan menggandakan file." },
+                { id: 413, stimulus: "Di mana kita biasanya melihat ikon folder berwarna kuning di komputer?", options: ["Di dalam lemari es", "Di dalam File Explorer / Desktop", "Di atas meja belajar kayu"], answer: 1, explanation: "Folder digital berada di dalam sistem penyimpanan komputer." },
+                { id: 414, stimulus: "Mengapa kita perlu merapikan file ke dalam folder-folder?", options: ["Agar komputer menjadi berat", "Agar tidak berantakan dan mudah dicari saat dibutuhkan", "Agar komputer cepat panas"], answer: 1, explanation: "Pengelompokan folder membuat file tertata rapi dan mudah ditemukan." },
+                { id: 415, stimulus: "Apa langkah pertama jika kita ingin me-rename file yang sedang terbuka di Microsoft Word?", options: ["Langsung klik kanan dan rename", "Menutup (close) aplikasi Microsoft Word terlebih dahulu", "Mematikan komputer secara paksa"], answer: 1, explanation: "Harus menutup aplikasi yang sedang memakainya agar bisa di-rename." }
+            ],
+            5: [
+                { id: 501, stimulus: "Susunan langkah-langkah atau cara penyelesaian masalah secara logis, teratur, dan runtut disebut...", options: ["Algoritma", "Hardware", "Dekstop"], answer: 0, explanation: "Algoritma adalah urutan langkah logis yang tidak boleh dibolak-balik." },
+                { id: 502, stimulus: "Dalam membuat algoritma penyelesaian masalah, susunan langkahnya harus...", options: ["Boleh dibolak-balik semaunya", "Teratur, runtut, dan logis", "Dibuat sangat rumit"], answer: 1, explanation: "Langkah algoritma harus teratur dan runtut agar hasilnya sempurna." },
+                { id: 503, stimulus: "Urutan pertama yang benar dalam algoritma mencuci tangan adalah...", options: ["Mengeringkan tangan dengan handuk", "Membasahi kedua tangan dengan air mengalir", "Memakai kaos kaki bersih"], answer: 1, explanation: "Langkah awal mencuci tangan adalah membasahi tangan dengan air mengalir." },
+                { id: 504, stimulus: "Setelah membasahi tangan dan memakai sabun, langkah selanjutnya adalah...", options: ["Langsung makan kue", "Menggosok telapak serta sela-sela jari tangan", "Meniup tangan sampai kering"], answer: 1, explanation: "Kita menggosok telapak dan sela-sela jari dengan sabun." },
+                { id: 505, stimulus: "Setelah busa sabun digosok merata, langkah berikutnya adalah...", options: ["Membilas busa sabun dengan air bersih sampai hilang", "Menambah sabun batangan lagi", "Membiarkan sabun mengering di tangan"], answer: 0, explanation: "Bilas busa sabun dengan air bersih." },
+                { id: 506, stimulus: "Langkah terakhir dalam algoritma mencuci tangan yang benar adalah...", options: ["Mengeringkan tangan menggunakan lap atau handuk bersih", "Mencelupkan tangan ke dalam lumpur", "Menjilat tangan sampai bersih"], answer: 0, explanation: "Keringkan tangan menggunakan handuk bersih di akhir." },
+                { id: 507, stimulus: "Apa arti dari istilah Debugging dalam komputer atau pemrograman?", options: ["Membuat komputer menjadi rusak", "Perbaikan pada urutan langkah yang keliru agar kembali benar", "Menghapus semua file di komputer"], answer: 1, explanation: "Debugging adalah proses memperbaiki kesalahan atau kekeliruan langkah." },
+                { id: 508, stimulus: "Mengapa urutan langkah dalam algoritma tidak boleh dibolak-balik?", options: ["Karena nanti hasilnya menjadi tidak sempurna atau salah", "Karena komputer akan berbunyi keras", "Karena guru akan marah"], answer: 0, explanation: "Urutan yang salah membuat tujuan atau hasil akhir algoritma gagal." },
+                { id: 509, stimulus: "Contoh kegiatan sehari-hari yang menggunakan prinsip algoritma adalah...", options: ["Memakai sepatu (kaos kaki dulu baru sepatu)", "Tidur sebelum mengantuk", "Makan nasi dengan piring terbalik"], answer: 0, explanation: "Memakai kaos kaki sebelum sepatu adalah contoh algoritma runtut." },
+                { id: 510, stimulus: "Jika dalam membuat teh manis kita memasukkan air panas dulu sebelum memasukkan teh dan gula, itu bagian dari...", options: ["Penyusunan urutan langkah (Algoritma)", "Kerusakan hardware CPU", "Pengunduhan file PDF"], answer: 0, explanation: "Itu adalah langkah urutan kerja atau algoritma." },
+                { id: 511, stimulus: "Apa yang terjadi jika urutan langkah membuat kue dibolak-balik (misal dipanggang dulu baru adon adonan)?", options: ["Kue menjadi sangat lezat", "Kue gagal dan tidak bisa dimakan", "Oven menjadi dingin"], answer: 1, explanation: "Urutan yang salah akan merusak hasil akhir." },
+                { id: 512, stimulus: "Siapa yang harus menyusun algoritma agar komputer dapat mengerjakan tugas dengan benar?", options: ["Manusia (pemrogram)", "Komputer pintar sendiri", "Kucing peliharaan"], answer: 0, explanation: "Manusia menyusun langkah logis untuk dikerjakan komputer." },
+                { id: 513, stimulus: "Istilah untuk mencari dan memperbaiki kesalahan susunan perintah disebut...", options: ["Debugging", "Formatting", "Shutdown"], answer: 0, explanation: "Debugging adalah perbaikan kesalahan logika." },
+                { id: 514, stimulus: "Manakah yang merupakan ciri utama dari sebuah algoritma yang baik?", options: ["Acak dan membingungkan", "Logis, runtut, dan jelas", "Panjang tanpa ujung"], answer: 1, explanation: "Algoritma yang baik harus logis dan runtut." },
+                { id: 515, stimulus: "Jika urutan mencuci piring dimulai dari mengelap piring kering dulu baru disabun, maka urutan ini...", options: ["Keliru dan harus di-debugging", "Sudah sangat benar", "Sangat cepat"], answer: 0, explanation: "Urutan tersebut keliru dan perlu diperbaiki (debugging)." }
+            ],
+            6: [
+                { id: 601, stimulus: "Aplikasi komputer yang asyik digunakan untuk menggambar, melukis, dan mewarnai secara digital di layar monitor adalah...", options: ["Microsoft Word", "Microsoft Paint", "Kalkulator"], answer: 1, explanation: "Microsoft Paint adalah aplikasi menggambar digital." },
+                { id: 602, stimulus: "Di dalam Microsoft Paint, ikon berbentuk Pensil (Pencil) berfungsi untuk...", options: ["Menghapus warna gambar", "Menggambar garis bebas tipis layaknya pensil tulis", "Mencetak gambar ke kertas"], answer: 1, explanation: "Pencil digunakan untuk menggambar garis bebas tipis." },
+                { id: 603, stimulus: "Ikon Penghapus (Eraser) di Microsoft Paint berfungsi untuk...", options: ["Menghapus bagian gambar atau garis yang salah", "Membuat warna latar belakang jadi gelap", "Menyimpan file otomatis"], answer: 0, explanation: "Eraser berfungsi menghapus bagian gambar yang keliru." },
+                { id: 604, stimulus: "Ikon Kaleng Cat Tumpah (Fill with Color) berfungsi untuk...", options: ["Menumpahkan air ke keyboard", "Mewarnai suatu bidang gambar tertutup secara instan dengan satu klik", "Memotong gambar menjadi dua"], answer: 1, explanation: "Fill with Color mewarnai bidang tertutup secara instan." },
+                { id: 605, stimulus: "Ikon Huruf A (Text) di Paint berfungsi untuk...", options: ["Menggambar hewan lucu", "Menyisipkan atau mengetik judul tulisan pada lembar gambar", "Menghapus tulisan salah"], answer: 1, explanation: "Text tool digunakan untuk mengetik teks atau judul pada gambar." },
+                { id: 606, stimulus: "Ikon Kuas (Brushes) di Microsoft Paint berfungsi untuk...", options: ["Melukis dengan pilihan bentuk garis kuas yang bermacam-macam", "Mematikan komputer", "Mengetik angka matematika"], answer: 0, explanation: "Brushes digunakan untuk melukis dengan berbagai gaya kuas." },
+                { id: 607, stimulus: "Di mana kita melihat hasil lukisan digital yang sedang kita buat?", options: ["Di atas meja kayu lab", "Di layar monitor", "Di dalam kotak CPU"], answer: 1, explanation: "Hasil lukisan tampil di layar monitor." },
+                { id: 608, stimulus: "Jika kita ingin mewarnai gambar rumah yang tertutup garis dengan warna biru dalam sekali klik, kita menggunakan...", options: ["Pencil", "Eraser", "Fill with Color (Kaleng Cat)"], answer: 2, explanation: "Kaleng cat warna mewarnai bidang tertutup dengan cepat." },
+                { id: 609, stimulus: "Apa yang terjadi jika bidang gambar yang ingin kita warnai dengan kaleng cat ternyata ada garis yang bocor (terbuka)?", options: ["Warna akan tumpah memenuhi seluruh lembar kerja", "Gambar menjadi 3 dimensi", "Aplikasi Paint otomatis tertutup"], answer: 0, explanation: "Jika bidang terbuka, warna cat akan keluar memenuhi seluruh layar." },
+                { id: 610, stimulus: "Bagaimana cara menyusupkan nama kita pada sudut gambar di Paint?", options: ["Menggunakan ikon Text (Huruf A)", "Menggunakan Eraser", "Menggunakan kaleng cat"], answer: 0, explanation: "Gunakan Text tool untuk menulis nama." },
+                { id: 611, stimulus: "Apakah Microsoft Paint termasuk aplikasi perangkat lunak (software)?", options: ["Ya, benar sekali", "Bukan, Paint adalah perangkat keras", "Paint adalah kabel penghubung"], answer: 0, explanation: "Paint adalah software aplikasi." },
+                { id: 612, stimulus: "Manakah alat di Paint yang paling cocok untuk membuat coretan garis halus mirip pensil nyata?", options: ["Pencil", "Fill with Color", "Eraser"], answer: 0, explanation: "Pencil tool membuat garis tipis bebas." },
+                { id: 613, stimulus: "Apakah kita bisa memilih berbagai jenis bentuk kuas pada menu Brushes di Paint?", options: ["Tidak bisa sama sekali", "Bisa, ada banyak pilihan bentuk kuas", "Hanya ada satu jenis kuas saja"], answer: 1, explanation: "Brushes menyediakan berbagai gaya sapuan kuas." },
+                { id: 614, stimulus: "Jika saat menggambar kita salah membuat garis, alat apa yang kita ambil untuk memperbaikinya?", options: ["Eraser (Penghapus)", "Printer", "Keyboard"], answer: 0, explanation: "Eraser digunakan untuk menghapus kesalahan gambar." },
+                { id: 615, stimulus: "Setelah selesai melukis pemandangan gunung di Paint, apa perintah selanjutnya agar gambar tersimpan?", options: ["Save / Simpan file", "Delete file", "Cabut kabel monitor"], answer: 0, explanation: "Kita harus melakukan Save agar gambar tersimpan." }
+            ]
+        };
+
+        // Avatars without any name labels
+        const AVATARS = [
+            '👦', '👧', '🐱', '🤖', '⭐', '📚', '🚀', '🎨'
+        ];
+
+        // --- LOCAL STORAGE INITIALIZATION ---
+        function initStorage() {
+            if (!localStorage.getItem('tik_chapters')) {
+                localStorage.setItem('tik_chapters', JSON.stringify(DEFAULT_CHAPTERS));
+            }
+            if (!localStorage.getItem('tik_kisi')) {
+                localStorage.setItem('tik_kisi', JSON.stringify(DEFAULT_KISI_KISI));
+            }
+            if (!localStorage.getItem('tik_questions')) {
+                localStorage.setItem('tik_questions', JSON.stringify(DEFAULT_QUESTIONS));
+            }
+            if (!localStorage.getItem('tik_students')) {
+                const initialStudents = [
+                    { name: "Nama", class: "3A", avatar: "👦", score: 450, history: {} },
+                    { name: "Nama", class: "3B", avatar: "👧", score: 420, history: {} },
+                    { name: "Nama", class: "3A", avatar: "🤖", score: 380, history: {} },
+                    { name: "Nama", class: "3C", avatar: "⭐", score: 350, history: {} }
+                ];
+                localStorage.setItem('tik_students', JSON.stringify(initialStudents));
+            }
+        }
+        initStorage();
+
+        // --- SESSION STATE & ROUTING ---
+        let currentStudent = JSON.parse(sessionStorage.getItem('tik_current_student')) || null;
+        let currentView = sessionStorage.getItem('tik_current_view') || (currentStudent ? 'student_dashboard' : 'login');
+        let currentActiveChapter = null;
+        let activeQuizChapter = null;
+        let quizState = JSON.parse(sessionStorage.getItem('tik_quiz_state')) || {};
+        let studentActiveMenu = sessionStorage.getItem('tik_student_menu') || 'chapters';
+        let adminTab = 'materials';
+        let selectedAdminChapter = 1;
+
+        function saveSession() {
+            if (currentStudent) {
+                sessionStorage.setItem('tik_current_student', JSON.stringify(currentStudent));
+            } else {
+                sessionStorage.removeItem('tik_current_student');
+            }
+            sessionStorage.setItem('tik_current_view', currentView);
+            sessionStorage.setItem('tik_student_menu', studentActiveMenu);
+            sessionStorage.setItem('tik_quiz_state', JSON.stringify(quizState));
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgCol = type === 'success' ? 'bg-emerald-600 text-white' : type === 'error' ? 'bg-rose-600 text-white' : 'bg-amber-500 text-white';
+            toast.className = `pointer-events-auto px-4 py-3 rounded-2xl shadow-xl font-medium flex items-center gap-3 transform translate-y-2 opacity-0 transition-all duration-300 ${bgCol}`;
+            toast.innerHTML = `<span>${type === 'success' ? '🎉' : '⚠️'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function render() {
+            const app = document.getElementById('app');
+            app.innerHTML = '';
+
+            if (currentView === 'login') {
+                app.innerHTML = renderLoginScreen();
+            } else if (currentView === 'student_dashboard') {
+                app.innerHTML = renderStudentPortal();
+            } else if (currentView === 'admin_login') {
+                app.innerHTML = renderAdminLoginScreen();
+            } else if (currentView === 'admin_dashboard') {
+                app.innerHTML = renderAdminPortal();
+            }
+
+            lucide.createIcons();
+        }
+
+        // --- 1. STUDENT LOGIN SCREEN ---
+        function renderLoginScreen() {
+            return `
+                <div class="flex-1 flex items-center justify-center p-4">
+                    <div class="max-w-md w-full bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 border-4 border-amber-300 relative overflow-hidden">
+                        <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-200 rounded-full blur-2xl opacity-50"></div>
+                        <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-sky-200 rounded-full blur-2xl opacity-50"></div>
+
+                        <div class="text-center mb-6 relative">
+                            <span class="inline-block text-5xl mb-2 bounce-gentle">💻</span>
+                            <h1 class="text-2xl font-extrabold text-sky-700">PORTAL BELAJAR TIK</h1>
+                            <p class="text-sm font-semibold text-amber-600 mt-1">Kelas 3 SD - Semester II</p>
+                        </div>
+
+                        <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4 relative">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1">Nama Lengkap Siswa:</label>
+                                <input type="text" id="student-name" required placeholder="Contoh: Ahmad Haidar" 
+                                    class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1">Kelas:</label>
+                                <select id="student-class" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none font-medium bg-white">
+                                    <option value="3A">Kelas 3A</option>
+                                    <option value="3B">Kelas 3B</option>
+                                    <option value="3C">Kelas 3C</option>
+                                    <option value="3D">Kelas 3D</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Pilih Avatar:</label>
+                                <div class="grid grid-cols-4 gap-3">
+                                    ${AVATARS.map((av, idx) => `
+                                        <label class="flex items-center justify-center p-3 rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-sky-400 hover:bg-sky-50 transition-all avatar-label ${idx === 0 ? 'border-sky-500 bg-sky-50 ring-2 ring-sky-300' : ''}">
+                                            <input type="radio" name="avatar" value="${av}" ${idx === 0 ? 'checked' : ''} class="sr-only" onchange="selectAvatarUI(this)">
+                                            <span class="text-3xl">${av}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full py-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-900 font-extrabold rounded-2xl shadow-lg transform active:scale-95 transition-all text-lg flex items-center justify-center gap-2 mt-4">
+                                <span>🚀 Masuk Portal Siswa</span>
+                            </button>
+                        </form>
+
+                        <div class="mt-6 text-center border-t border-slate-100 pt-4">
+                            <button onclick="goToAdminLogin()" class="text-xs font-bold text-slate-400 hover:text-sky-600 transition-colors flex items-center justify-center gap-1 mx-auto">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i> Login Portal Guru / Admin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectAvatarUI(radio) {
+            document.querySelectorAll('.avatar-label').forEach(lbl => {
+                lbl.classList.remove('border-sky-500', 'bg-sky-50', 'ring-2', 'ring-sky-300');
+            });
+            radio.closest('label').classList.add('border-sky-500', 'bg-sky-50', 'ring-2', 'ring-sky-300');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('student-name').value.trim();
+            const clazz = document.getElementById('student-class').value;
+            const avatar = document.querySelector('input[name="avatar"]:checked').value;
+
+            currentStudent = { name, class: clazz, avatar, score: 0, history: {} };
+            
+            let students = JSON.parse(localStorage.getItem('tik_students')) || [];
+            let existing = students.find(s => s.name.toLowerCase() === name.toLowerCase());
+            if (existing) {
+                currentStudent.score = existing.score;
+            } else {
+                students.push(currentStudent);
+                localStorage.setItem('tik_students', JSON.stringify(students));
+            }
+
+            currentView = 'student_dashboard';
+            studentActiveMenu = 'chapters';
+            saveSession();
+            render();
+            showToast(`Ahlan wa sahlan, ${name}! Selamat belajar.`);
+        }
+
+        // --- 2. ADMIN LOGIN SCREEN ---
+        function renderAdminLoginScreen() {
+            return `
+                <div class="flex-1 flex items-center justify-center p-4">
+                    <div class="max-w-md w-full bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 border-4 border-slate-300">
+                        <div class="text-center mb-6">
+                            <span class="inline-block text-5xl mb-2">🔒</span>
+                            <h1 class="text-2xl font-extrabold text-slate-800">PORTAL GURU / ADMIN</h1>
+                            <p class="text-sm font-semibold text-slate-500 mt-1">Masukkan PIN Akses</p>
+                        </div>
+                        <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1">PIN Admin:</label>
+                                <input type="password" id="admin-pin" required placeholder="Masukkan PIN" 
+                                    class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none font-medium">
+                            </div>
+                            <button type="submit" class="w-full py-4 bg-slate-800 hover:bg-slate-900 text-white font-extrabold rounded-2xl shadow-lg transition-all text-lg">
+                                Masuk Panel Admin
+                            </button>
+                        </form>
+                        <div class="mt-6 text-center">
+                            <button onclick="currentView='login'; render();" class="text-sm font-bold text-sky-600 hover:underline">
+                                &larr; Kembali ke Portal Siswa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('admin-pin').value;
+            if (pin === 'admin135' || pin === 'admin') {
+                currentView = 'admin_dashboard';
+                saveSession();
+                render();
+                showToast("Berhasil masuk sebagai Admin/Guru!", "success");
+            } else {
+                showToast("PIN Admin salah!", "error");
+            }
+        }
+
+        function goToAdminLogin() {
+            currentView = 'admin_login';
+            render();
+        }
+
+        // --- 3. STUDENT PORTAL DASHBOARD ---
+        function renderStudentPortal() {
+            const chapters = JSON.parse(localStorage.getItem('tik_chapters'));
+            const kisi = JSON.parse(localStorage.getItem('tik_kisi'));
+            const students = JSON.parse(localStorage.getItem('tik_students')) || [];
+            students.sort((a,b) => b.score - a.score);
+
+            return `
+                <header class="bg-white/90 backdrop-blur-md shadow-md sticky top-0 z-40 border-b border-amber-200">
+                    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-amber-300 rounded-2xl flex items-center justify-center text-2xl shadow-inner">${currentStudent.avatar}</div>
+                            <div>
+                                <h2 class="font-extrabold text-slate-800 text-base leading-tight">${currentStudent.name}</h2>
+                                <p class="text-xs font-bold text-sky-600">Kelas ${currentStudent.class} | Poin: <span class="text-amber-600 font-extrabold">${currentStudent.score} ⭐</span></p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1 sm:gap-2 overflow-x-auto py-1">
+                            <button onclick="switchStudentMenu('chapters')" class="px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 ${studentActiveMenu === 'chapters' ? 'bg-sky-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                                <i data-lucide="book-open" class="w-4 h-4"></i> Materi
+                            </button>
+                            <button onclick="switchStudentMenu('quiz')" class="px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 ${studentActiveMenu === 'quiz' ? 'bg-amber-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                                <i data-lucide="help-circle" class="w-4 h-4"></i> Kuis
+                            </button>
+                            <button onclick="switchStudentMenu('kisi')" class="px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 ${studentActiveMenu === 'kisi' ? 'bg-emerald-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                                <i data-lucide="file-text" class="w-4 h-4"></i> Kisi-Kisi PSAS
+                            </button>
+                            <button onclick="switchStudentMenu('leaderboard')" class="px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 ${studentActiveMenu === 'leaderboard' ? 'bg-purple-500 text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                                <i data-lucide="trophy" class="w-4 h-4"></i> Leaderboard
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <button onclick="manualLogout()" class="px-3 py-2 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs rounded-xl transition-all flex items-center gap-1">
+                                <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6">
+                    ${studentActiveMenu === 'chapters' ? renderChaptersView(chapters) : ''}
+                    ${studentActiveMenu === 'quiz' ? renderQuizView() : ''}
+                    ${studentActiveMenu === 'kisi' ? renderKisiView(kisi) : ''}
+                    ${studentActiveMenu === 'leaderboard' ? renderLeaderboardView(students) : ''}
+                </main>
+
+                ${currentActiveChapter !== null ? renderChapterModal(chapters.find(c => c.id === currentActiveChapter)) : ''}
+            `;
+        }
+
+        function switchStudentMenu(menu) {
+            studentActiveMenu = menu;
+            saveSession();
+            render();
+        }
+
+        function manualLogout() {
+            sessionStorage.removeItem('tik_current_student');
+            sessionStorage.removeItem('tik_current_view');
+            sessionStorage.removeItem('tik_student_menu');
+            currentStudent = null;
+            currentView = 'login';
+            render();
+            showToast("Anda telah keluar dari portal.");
+        }
+
+        // --- CHAPTERS VIEW & GOOGLE DRIVE PDF INTEGRATION ---
+        function renderChaptersView(chapters) {
+            const cardColors = [
+                'from-sky-400 to-blue-500 border-sky-200',
+                'from-amber-400 to-orange-500 border-amber-200',
+                'from-emerald-400 to-teal-500 border-emerald-200',
+                'from-pink-400 to-rose-500 border-pink-200',
+                'from-purple-400 to-indigo-500 border-purple-200',
+                'from-cyan-400 to-blue-600 border-cyan-200'
+            ];
+
+            return `
+                <div class="mb-6 text-center sm:text-left">
+                    <h1 class="text-3xl font-extrabold text-slate-800">📚 Ringkasan Materi TIK Kelas 3</h1>
+                    <p class="text-slate-600 font-medium mt-1">Pilih Bab di bawah ini untuk membaca ringkasan dan membuka file PDF dari Google Drive.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${chapters.map((ch, idx) => `
+                        <div onclick="openChapterModal(${ch.id})" class="bg-white rounded-3xl p-6 shadow-lg border-2 border-slate-100 hover:border-sky-400 cursor-pointer transition-all transform hover:-translate-y-1 flex flex-col justify-between group">
+                            <div>
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${cardColors[idx % cardColors.length]} text-white flex items-center justify-center font-extrabold text-lg shadow-md mb-4">
+                                    0${ch.id}
+                                </div>
+                                <h3 class="font-extrabold text-slate-800 text-lg group-hover:text-sky-600 transition-colors mb-2">
+                                    Bab ${ch.id}: ${ch.title}
+                                </h3>
+                                <p class="text-slate-600 text-sm line-clamp-3 content-andika">
+                                    ${ch.summary}
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-sky-600">
+                                <span class="flex items-center gap-1"><i data-lucide="file-text" class="w-4 h-4"></i> ${ch.pdfs.length} Tautan PDF</span>
+                                <span class="bg-sky-50 px-3 py-1 rounded-full group-hover:bg-sky-500 group-hover:text-white transition-all">Baca Materi &rarr;</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function openChapterModal(id) {
+            currentActiveChapter = id;
+            render();
+        }
+
+        function closeChapterModal() {
+            currentActiveChapter = null;
+            render();
+        }
+
+        function renderChapterModal(ch) {
+            return `
+                <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border-4 border-amber-300 relative">
+                        <button onclick="closeChapterModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-rose-100 text-slate-500 hover:text-rose-600 flex items-center justify-center font-bold text-xl transition-all">
+                            &times;
+                        </button>
+
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 bg-amber-100 text-amber-800 font-extrabold text-xs rounded-full">BAB ${ch.id}</span>
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800">${ch.title}</h2>
+                        </div>
+
+                        <div class="bg-sky-50/70 p-5 rounded-2xl border border-sky-100 mb-6 content-andika text-slate-700 whitespace-pre-line">
+                            ${ch.summary}
+                        </div>
+
+                        <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <i data-lucide="external-link" class="w-5 h-5 text-sky-600"></i> Berkas Materi PDF (Tautan Google Drive Guru):
+                        </h4>
+
+                        <div class="space-y-2 mb-6">
+                            ${ch.pdfs && ch.pdfs.length > 0 ? ch.pdfs.map((pdf, pIdx) => `
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
+                                    <div class="flex items-center gap-3 overflow-hidden">
+                                        <div class="w-10 h-10 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-extrabold text-xs flex-shrink-0">PDF</div>
+                                        <div class="truncate">
+                                            <p class="font-bold text-sm text-slate-800 truncate">${pdf.name}</p>
+                                            <a href="${pdf.url}" target="_blank" class="text-xs text-sky-600 hover:underline truncate block">${pdf.url}</a>
+                                        </div>
+                                    </div>
+                                    <a href="${pdf.url}" target="_blank" class="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs rounded-xl shadow transition-all flex items-center gap-1 flex-shrink-0">
+                                        <i data-lucide="external-link" class="w-4 h-4"></i> Buka PDF
+                                    </a>
+                                </div>
+                            `).join('') : '<p class="text-sm text-slate-400 italic">Belum ada tautan PDF yang diunggah guru untuk bab ini.</p>'}
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button onclick="closeChapterModal()" class="px-6 py-3 bg-slate-800 text-white font-bold rounded-2xl hover:bg-slate-900 transition-all">
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- QUIZ VIEW (STATE PERSISTENCE ON MENU SWITCH) ---
+        function renderQuizView() {
+            const allQuestions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
+            const chapters = JSON.parse(localStorage.getItem('tik_chapters'));
+
+            if (!activeQuizChapter) {
+                return `
+                    <div class="mb-6">
+                        <h1 class="text-3xl font-extrabold text-slate-800">🎯 Kuis Interaktif Bab 1 - 6</h1>
+                        <p class="text-slate-600 font-medium mt-1">Setiap bab memiliki 15 soal dengan penjelasan dan poin! Jika tidak sengaja berpindah menu, kuis akan tetap berlanjut.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${chapters.map((ch, idx) => {
+                            const qList = allQuestions[ch.id] || [];
+                            const isCompleted = currentStudent.history && currentStudent.history[ch.id];
+                            return `
+                                <div class="bg-white rounded-3xl p-6 shadow-lg border-2 border-slate-100 flex flex-col justify-between">
+                                    <div>
+                                        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-extrabold text-lg shadow-inner mb-4">
+                                            Q${ch.id}
+                                        </div>
+                                        <h3 class="font-extrabold text-slate-800 text-lg mb-2">Kuis Bab ${ch.id}</h3>
+                                        <p class="text-slate-600 text-sm mb-4">${ch.title}</p>
+                                        <p class="text-xs font-bold text-slate-400">${qList.length} Soal Tersedia</p>
+                                    </div>
+                                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                                        <span class="text-xs font-extrabold ${isCompleted ? 'text-emerald-600' : 'text-amber-600'}">
+                                            ${isCompleted ? '✅ Selesai Dikerjakan' : '⭐ Belum Dikerjakan'}
+                                        </span>
+                                        <button onclick="startQuiz(${ch.id})" class="px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold text-sm rounded-xl shadow transition-all">
+                                            Mulai Kuis &rarr;
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+
+            const qList = allQuestions[activeQuizChapter] || [];
+            if (!quizState[activeQuizChapter]) {
+                quizState[activeQuizChapter] = { currentIndex: 0, score: 0, answers: {}, finished: false };
+            }
+            const st = quizState[activeQuizChapter];
+
+            if (st.finished || st.currentIndex >= qList.length) {
+                return `
+                    <div class="max-w-xl mx-auto bg-white rounded-3xl p-8 shadow-2xl border-4 border-amber-300 text-center">
+                        <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 bounce-gentle">🏆</div>
+                        <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Kuis Bab ${activeQuizChapter} Selesai!</h2>
+                        <p class="text-slate-600 mb-6">Barakallahu fiik! Kamu telah menyelesaikan seluruh soal pada bab ini.</p>
+                        <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 mb-6">
+                            <p class="text-sm font-bold text-slate-500">Poin Diperoleh pada Kuis Ini:</p>
+                            <p class="text-4xl font-extrabold text-amber-600 mt-1">+${st.score} ⭐</p>
+                        </div>
+                        <button onclick="finishQuizChapter(${activeQuizChapter})" class="w-full py-4 bg-sky-500 hover:bg-sky-600 text-white font-extrabold rounded-2xl shadow-lg transition-all text-lg">
+                            Kembali ke Daftar Kuis
+                        </button>
+                    </div>
+                `;
+            }
+
+            const q = qList[st.currentIndex];
+            const answeredData = st.answers[st.currentIndex];
+
+            return `
+                <div class="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-2 border-slate-100">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <button onclick="activeQuizChapter = null; render();" class="text-xs font-bold text-sky-600 hover:underline">&larr; Keluar Kuis</button>
+                            <span class="text-slate-300">|</span>
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">Bab ${activeQuizChapter}</span>
+                        </div>
+                        <span class="text-xs font-extrabold text-slate-500">Soal ${st.currentIndex + 1} dari ${qList.length}</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-slate-800 content-andika leading-relaxed mb-4">
+                            ${q.stimulus}
+                        </h3>
+                    </div>
+
+                    <div class="space-y-3 mb-6">
+                        ${q.options.map((opt, oIdx) => {
+                            let btnStyle = "border-slate-200 hover:border-sky-400 hover:bg-sky-50 text-slate-700 bg-white";
+                            if (answeredData !== undefined) {
+                                if (oIdx === q.answer) {
+                                    btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold ring-2 ring-emerald-300";
+                                } else if (answeredData === oIdx && oIdx !== q.answer) {
+                                    btnStyle = "border-rose-500 bg-rose-50 text-rose-900 font-bold ring-2 ring-rose-300";
+                                } else {
+                                    btnStyle = "border-slate-200 opacity-50 bg-white text-slate-400";
+                                }
+                            }
+                            return `
+                                <button onclick="answerQuizOption(${oIdx})" ${answeredData !== undefined ? 'disabled' : ''} class="w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between font-medium ${btnStyle}">
+                                    <span class="flex items-center gap-3">
+                                        <span class="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center font-extrabold text-xs text-slate-600">${String.fromCharCode(65 + oIdx)}</span>
+                                        <span class="content-andika">${opt}</span>
+                                    </span>
+                                    ${answeredData !== undefined && oIdx === q.answer ? '<span class="text-emerald-600 font-bold">✔ Benar</span>' : ''}
+                                    ${answeredData !== undefined && answeredData === oIdx && oIdx !== q.answer ? '<span class="text-rose-600 font-bold">✖ Salah</span>' : ''}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    ${answeredData !== undefined ? `
+                        <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 mb-6">
+                            <p class="font-bold text-amber-900 text-sm mb-1">💡 Penjelasan:</p>
+                            <p class="text-slate-700 text-sm content-andika">${q.explanation}</p>
+                        </div>
+                        <div class="flex justify-end">
+                            <button onclick="nextQuizQuestion()" class="px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold rounded-2xl shadow-lg hover:from-amber-500 hover:to-amber-600 transition-all flex items-center gap-2">
+                                ${st.currentIndex + 1 >= qList.length ? 'Selesaikan Kuis 🏁' : 'Soal Berikutnya &rarr;'}
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function startQuiz(chapterId) {
+            activeQuizChapter = chapterId;
+            if (!quizState[chapterId]) {
+                quizState[chapterId] = { currentIndex: 0, score: 0, answers: {}, finished: false };
+            }
+            saveSession();
+            render();
+        }
+
+        function answerQuizOption(optIdx) {
+            const allQuestions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
+            const qList = allQuestions[activeQuizChapter];
+            const st = quizState[activeQuizChapter];
+            const q = qList[st.currentIndex];
+
+            st.answers[st.currentIndex] = optIdx;
+            if (optIdx === q.answer) {
+                st.score += 10;
+            }
+            saveSession();
+            render();
+        }
+
+        function nextQuizQuestion() {
+            const allQuestions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
+            const qList = allQuestions[activeQuizChapter];
+            const st = quizState[activeQuizChapter];
+
+            if (st.currentIndex + 1 < qList.length) {
+                st.currentIndex += 1;
+            } else {
+                st.finished = true;
+                currentStudent.score += st.score;
+                currentStudent.history = currentStudent.history || {};
+                currentStudent.history[activeQuizChapter] = st.score;
+
+                let students = JSON.parse(localStorage.getItem('tik_students')) || [];
+                let idx = students.findIndex(s => s.name.toLowerCase() === currentStudent.name.toLowerCase());
+                if (idx !== -1) {
+                    students[idx].score = currentStudent.score;
+                } else {
+                    students.push(currentStudent);
+                }
+                localStorage.setItem('tik_students', JSON.stringify(students));
+                showToast(`Kuis selesai! Kamu mendapat +${st.score} Poin ⭐`);
+            }
+            saveSession();
+            render();
+        }
+
+        function finishQuizChapter(chapterId) {
+            activeQuizChapter = null;
+            saveSession();
+            render();
+        }
+
+        // --- KISI-KISI VIEW ---
+        function renderKisiView(kisi) {
+            return `
+                <div class="mb-6">
+                    <h1 class="text-3xl font-extrabold text-slate-800">📋 Kisi-Kisi PSAS Semester 1 & 2</h1>
+                    <p class="text-slate-600 font-medium mt-1">Panduan kisi-kisi ujian mata pelajaran TIK Kelas 3 SD Bab 1 sampai 6.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    ${kisi.map(item => `
+                        <div class="bg-white rounded-3xl p-6 shadow-lg border-2 border-slate-100">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-extrabold text-xs rounded-full">${item.chapter}</span>
+                                <h3 class="font-extrabold text-slate-800 text-lg">${item.title}</h3>
+                            </div>
+                            <ul class="space-y-2">
+                                ${item.points.map(pt => `
+                                    <li class="flex items-start gap-2 text-slate-700 text-sm content-andika">
+                                        <span class="text-emerald-500 font-extrabold mt-0.5">✔</span>
+                                        <span>${pt}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // --- LEADERBOARD VIEW WITH ISLAMIC NAMES ---
+        function renderLeaderboardView(students) {
+            return `
+                <div class="max-w-2xl mx-auto">
+                    <div class="text-center mb-6">
+                        <span class="text-4xl mb-2 inline-block bounce-gentle">🏆</span>
+                        <h1 class="text-3xl font-extrabold text-slate-800">Papan Peringkat (Leaderboard)</h1>
+                        <p class="text-slate-600 font-medium mt-1">Siswa terajin peraih poin kuis TIK Kelas 3!</p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl shadow-xl border-2 border-amber-200 overflow-hidden">
+                        <div class="bg-gradient-to-r from-amber-400 to-amber-500 p-4 text-slate-900 font-extrabold flex items-center justify-between">
+                            <span>Nama Siswa</span>
+                            <span>Total Poin</span>
+                        </div>
+                        <div class="divide-y divide-slate-100">
+                            ${students.map((st, idx) => `
+                                <div class="flex items-center justify-between p-4 sm:p-5 hover:bg-amber-50/50 transition-colors ${st.name.toLowerCase() === currentStudent?.name.toLowerCase() ? 'bg-sky-50 font-bold' : ''}">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-2xl flex items-center justify-center font-extrabold text-base ${idx === 0 ? 'bg-amber-400 text-slate-900 shadow-md' : idx === 1 ? 'bg-slate-300 text-slate-800' : idx === 2 ? 'bg-amber-700/30 text-amber-900' : 'bg-slate-100 text-slate-600'}">
+                                            #${idx + 1}
+                                        </div>
+                                        <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-xl shadow-inner">
+                                            ${st.avatar || '👦'}
+                                        </div>
+                                        <div>
+                                            <p class="font-extrabold text-slate-800">${st.name} ${st.name.toLowerCase() === currentStudent?.name.toLowerCase() ? '(Kamu)' : ''}</p>
+                                            <p class="text-xs text-slate-500">Kelas ${st.class}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg font-extrabold text-amber-600">${st.score}</span>
+                                        <span class="text-xs font-bold text-slate-400">⭐</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 4. ADMIN PORTAL DASHBOARD ---
+        function renderAdminPortal() {
+            const chapters = JSON.parse(localStorage.getItem('tik_chapters'));
+            const kisi = JSON.parse(localStorage.getItem('tik_kisi'));
+            const questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
+            const students = JSON.parse(localStorage.getItem('tik_students')) || [];
+            students.sort((a,b) => b.score - a.score);
+
+            return `
+                <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40">
+                    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-amber-400 rounded-xl flex items-center justify-center text-slate-900 font-extrabold">👑</div>
+                            <div>
+                                <h1 class="font-extrabold text-lg leading-tight">Panel Admin & Guru TIK</h1>
+                                <p class="text-xs text-slate-400">Kelola Ringkasan, Tautan Google Drive PDF, Soal & Siswa</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 overflow-x-auto py-1">
+                            <button onclick="adminTab='materials'; render();" class="px-4 py-2 rounded-xl font-bold text-xs transition-all ${adminTab === 'materials' ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                📚 Materi & Google Drive PDF
+                            </button>
+                            <button onclick="adminTab='questions'; render();" class="px-4 py-2 rounded-xl font-bold text-xs transition-all ${adminTab === 'questions' ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                🎯 Soal Kuis
+                            </button>
+                            <button onclick="adminTab='kisi'; render();" class="px-4 py-2 rounded-xl font-bold text-xs transition-all ${adminTab === 'kisi' ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                📋 Kisi-Kisi
+                            </button>
+                            <button onclick="adminTab='students'; render();" class="px-4 py-2 rounded-xl font-bold text-xs transition-all ${adminTab === 'students' ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                🏆 Siswa & Leaderboard
+                            </button>
+                        </div>
+
+                        <button onclick="adminLogout()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition-all">
+                            Keluar Admin
+                        </button>
+                    </div>
+                </header>
+
+                <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6">
+                    ${adminTab === 'materials' ? renderAdminMaterials(chapters) : ''}
+                    ${adminTab === 'questions' ? renderAdminQuestions(questions, chapters) : ''}
+                    ${adminTab === 'kisi' ? renderAdminKisi(kisi) : ''}
+                    ${adminTab === 'students' ? renderAdminStudents(students) : ''}
+                </main>
+            `;
+        }
+
+        function adminLogout() {
+            currentView = 'login';
+            saveSession();
+            render();
+            showToast("Keluar dari panel admin.");
+        }
+
+        // --- ADMIN: MATERIALS & GOOGLE DRIVE URL MANAGEMENT ---
+        function renderAdminMaterials(chapters) {
+            const ch = chapters.find(c => c.id === selectedAdminChapter) || chapters[0];
+            return `
+                <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Manajemen Ringkasan & Tautan Google Drive PDF</h2>
+                        <p class="text-slate-600 text-sm">Edit ringkasan teks dan masukkan URL Google Drive PDF (1-3 file per bab) agar siswa dapat langsung membukanya.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-sm font-bold text-slate-700">Pilih Bab:</label>
+                        <select onchange="selectedAdminChapter=parseInt(this.value); render();" class="px-4 py-2 rounded-xl border-2 border-slate-200 bg-white font-bold text-slate-800">
+                            ${chapters.map(c => `<option value="${c.id}" ${c.id === selectedAdminChapter ? 'selected' : ''}>Bab ${c.id}: ${c.title.substring(0, 22)}...</option>`).join('')}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white rounded-3xl p-6 shadow-xl border border-slate-200">
+                        <h3 class="font-extrabold text-slate-800 text-lg mb-4">Edit Ringkasan Materi Bab ${ch.id}</h3>
+                        <form onsubmit="handleSaveSummary(event, ${ch.id})" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1">Judul Bab:</label>
+                                <input type="text" id="edit-ch-title" value="${ch.title}" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 font-medium focus:border-sky-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1">Ringkasan Materi:</label>
+                                <textarea id="edit-ch-summary" rows="8" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 font-medium focus:border-sky-500 focus:outline-none">${ch.summary}</textarea>
+                            </div>
+                            <button type="submit" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow transition-all">
+                                Simpan Perubahan Materi
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-extrabold text-slate-800 text-lg mb-4">Tautan PDF Google Drive Bab ${ch.id}</h3>
+                            <div class="space-y-3 mb-6">
+                                ${ch.pdfs && ch.pdfs.length > 0 ? ch.pdfs.map((pdf, pIdx) => `
+                                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <p class="font-bold text-xs text-slate-800 truncate">${pdf.name}</p>
+                                            <button onclick="handleDeletePdf(${ch.id}, ${pIdx})" class="text-rose-500 hover:text-rose-700 font-bold text-xs">Hapus</button>
+                                        </div>
+                                        <p class="text-[10px] text-sky-600 truncate">${pdf.url}</p>
+                                    </div>
+                                `).join('') : '<p class="text-xs text-slate-400 italic">Belum ada tautan PDF.</p>'}
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100">
+                            <h4 class="text-sm font-bold text-slate-700 mb-2">Tambah Tautan Google Drive Baru:</h4>
+                            <form onsubmit="handleAddDrivePdf(event, ${ch.id})" class="space-y-3">
+                                <div>
+                                    <input type="text" id="new-pdf-name" required placeholder="Nama File (cth: Ringkasan Bab 1.pdf)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium">
+                                </div>
+                                <div>
+                                    <input type="url" id="new-pdf-url" required placeholder="URL Google Drive (https://drive.google.com/...)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium">
+                                </div>
+                                <button type="submit" class="w-full py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-xs rounded-xl shadow transition-all">
+                                    🔗 Tambah & Sinkronkan Tautan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleSaveSummary(e, chapterId) {
+            e.preventDefault();
+            const title = document.getElementById('edit-ch-title').value;
+            const summary = document.getElementById('edit-ch-summary').value;
+
+            let chapters = JSON.parse(localStorage.getItem('tik_chapters'));
+            let ch = chapters.find(c => c.id === chapterId);
+            if (ch) {
+                ch.title = title;
+                ch.summary = summary;
+                localStorage.setItem('tik_chapters', JSON.stringify(chapters));
+                showToast(`Ringkasan Bab ${chapterId} berhasil diperbarui!`);
+                render();
+            }
+        }
+
+        function handleAddDrivePdf(e, chapterId) {
+            e.preventDefault();
+            const name = document.getElementById('new-pdf-name').value;
+            const url = document.getElementById('new-pdf-url').value;
+
+            let chapters = JSON.parse(localStorage.getItem('tik_chapters'));
+            let ch = chapters.find(c => c.id === chapterId);
+            if (ch.pdfs.length >= 3) {
+                showToast("Maksimal 3 tautan PDF per bab!", "error");
+                return;
+            }
+
+            ch.pdfs.push({ name, url });
+            localStorage.setItem('tik_chapters', JSON.stringify(chapters));
+            showToast(`Tautan ${name} berhasil ditambahkan!`);
+            render();
+        }
+
+        function handleDeletePdf(chapterId, pdfIdx) {
+            let chapters = JSON.parse(localStorage.getItem('tik_chapters'));
+            let ch = chapters.find(c => c.id === chapterId);
+            ch.pdfs.splice(pdfIdx, 1);
+            localStorage.setItem('tik_chapters', JSON.stringify(chapters));
+            showToast("Tautan PDF berhasil dihapus.");
+            render();
+        }
+
+        // --- ADMIN: QUESTIONS MANAGEMENT ---
+        function renderAdminQuestions(questions, chapters) {
+            const chId = selectedAdminChapter;
+            const qList = questions[chId] || [];
+
+            return `
+                <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Manajemen Soal Kuis (Bab 1 - 6)</h2>
+                        <p class="text-slate-600 text-sm">Tambah, edit, atau hapus soal kuis beserta pilihan A-C dan penjelasannya.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <select onchange="selectedAdminChapter=parseInt(this.value); render();" class="px-4 py-2 rounded-xl border-2 border-slate-200 bg-white font-bold text-slate-800">
+                            ${chapters.map(c => `<option value="${c.id}" ${c.id === chId ? 'selected' : ''}>Bab ${c.id}: ${c.title.substring(0, 22)}...</option>`).join('')}
+                        </select>
+                        <button onclick="openAddQuestionModal(${chId})" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow transition-all">
+                            + Tambah Soal Baru
+                        </button>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    ${qList.map((q, qIdx) => `
+                        <div class="bg-white rounded-2xl p-5 shadow border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 font-extrabold text-xs rounded-md">Soal #${qIdx + 1}</span>
+                                    <span class="text-xs font-bold text-emerald-600">Jawaban Benar: Opsi ${['A','B','C'][q.answer]}</span>
+                                </div>
+                                <p class="font-extrabold text-slate-800 text-sm content-andika mb-2">${q.stimulus}</p>
+                                <p class="text-xs text-slate-500 italic">💡 Penjelasan: ${q.explanation}</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="openEditQuestionModal(${chId}, ${qIdx})" class="px-3 py-1.5 bg-sky-100 hover:bg-sky-200 text-sky-700 font-bold text-xs rounded-lg transition-all">
+                                    Edit
+                                </button>
+                                <button onclick="handleDeleteQuestion(${chId}, ${qIdx})" class="px-3 py-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs rounded-lg transition-all">
+                                    Hapus
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div id="question-modal-container"></div>
+            `;
+        }
+
+        function openAddQuestionModal(chapterId) {
+            const container = document.getElementById('question-modal-container');
+            container.innerHTML = `
+                <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border-4 border-amber-300">
+                        <h3 class="text-lg font-extrabold text-slate-800 mb-4">Tambah Soal Baru Bab ${chapterId}</h3>
+                        <form onsubmit="handleSaveNewQuestion(event, ${chapterId})" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Stimulus / Pertanyaan:</label>
+                                <textarea id="new-q-stimulus" required rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium focus:outline-none focus:border-sky-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan A:</label>
+                                <input type="text" id="new-q-opt0" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan B:</label>
+                                <input type="text" id="new-q-opt1" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan C:</label>
+                                <input type="text" id="new-q-opt2" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Jawaban Benar:</label>
+                                <select id="new-q-answer" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium bg-white">
+                                    <option value="0">Opsi A</option>
+                                    <option value="1">Opsi B</option>
+                                    <option value="2">Opsi C</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Penjelasan Jawaban:</label>
+                                <textarea id="new-q-exp" required rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium"></textarea>
+                            </div>
+                            <div class="flex justify-end gap-2 pt-3">
+                                <button type="button" onclick="document.getElementById('question-modal-container').innerHTML=''" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Batal</button>
+                                <button type="submit" class="px-4 py-2 bg-emerald-600 text-white font-bold text-xs rounded-xl shadow">Simpan Soal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleSaveNewQuestion(e, chapterId) {
+            e.preventDefault();
+            const stimulus = document.getElementById('new-q-stimulus').value;
+            const opt0 = document.getElementById('new-q-opt0').value;
+            const opt1 = document.getElementById('new-q-opt1').value;
+            const opt2 = document.getElementById('new-q-opt2').value;
+            const answer = parseInt(document.getElementById('new-q-answer').value);
+            const explanation = document.getElementById('new-q-exp').value;
+
+            let questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
+            if (!questions[chapterId]) questions[chapterId] = [];
+
+            questions[chapterId].push({
+                id: Date.now(),
+                stimulus,
+                options: [opt0, opt1, opt2],
+                answer,
+                explanation
+            });
+
+            localStorage.setItem('tik_questions', JSON.stringify(questions));
+            showToast("Soal kuis baru berhasil ditambahkan!");
+            render();
+        }
+
+        function openEditQuestionModal(chapterId, qIdx) {
+            let questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
+            const q = questions[chapterId][qIdx];
+
+            const container = document.getElementById('question-modal-container');
+            container.innerHTML = `
+                <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border-4 border-amber-300">
+                        <h3 class="text-lg font-extrabold text-slate-800 mb-4">Edit Soal #${qIdx + 1} Bab ${chapterId}</h3>
+                        <form onsubmit="handleUpdateQuestion(event, ${chapterId}, ${qIdx})" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Stimulus / Pertanyaan:</label>
+                                <textarea id="edit-q-stimulus" required rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">${q.stimulus}</textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan A:</label>
+                                <input type="text" id="edit-q-opt0" value="${q.options[0]}" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan B:</label>
+                                <input type="text" id="edit-q-opt1" value="${q.options[1]}" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan C:</label>
+                                <input type="text" id="edit-q-opt2" value="${q.options[2]}" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Jawaban Benar:</label>
+                                <select id="edit-q-answer" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium bg-white">
+                                    <option value="0" ${q.answer === 0 ? 'selected' : ''}>Opsi A</option>
+                                    <option value="1" ${q.answer === 1 ? 'selected' : ''}>Opsi B</option>
+                                    <option value="2" ${q.answer === 2 ? 'selected' : ''}>Opsi C</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Penjelasan Jawaban:</label>
+                                <textarea id="edit-q-exp" required rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-medium">${q.explanation}</textarea>
+                            </div>
+                            <div class="flex justify-end gap-2 pt-3">
+                                <button type="button" onclick="document.getElementById('question-modal-container').innerHTML=''" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Batal</button>
+                                <button type="submit" class="px-4 py-2 bg-sky-600 text-white font-bold text-xs rounded-xl shadow">Perbarui Soal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleUpdateQuestion(e, chapterId, qIdx) {
+            e.preventDefault();
+            const stimulus = document.getElementById('edit-q-stimulus').value;
+            const opt0 = document.getElementById('edit-q-opt0').value;
+            const opt1 = document.getElementById('edit-q-opt1').value;
+            const opt2 = document.getElementById('edit-q-opt2').value;
+            const answer = parseInt(document.getElementById('edit-q-answer').value);
+            const explanation = document.getElementById('edit-q-exp').value;
+
+            let questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
+            questions[chapterId][qIdx] = {
+                id: questions[chapterId][qIdx].id,
+                stimulus,
+                options: [opt0, opt1, opt2],
+                answer,
+                explanation
+            };
+
+            localStorage.setItem('tik_questions', JSON.stringify(questions));
+            showToast("Soal kuis berhasil diperbarui!");
+            render();
+        }
+
+        function handleDeleteQuestion(chapterId, qIdx) {
+            if (confirm("Yakin ingin menghapus soal ini?")) {
+                let questions = JSON.parse(localStorage.getItem('tik_questions')) || DEFAULT_QUESTIONS;
+                questions[chapterId].splice(qIdx, 1);
+                localStorage.setItem('tik_questions', JSON.stringify(questions));
+                showToast("Soal berhasil dihapus.");
+                render();
+            }
+        }
+
+        // --- ADMIN: KISI-KISI MANAGEMENT ---
+        function renderAdminKisi(kisi) {
+            return `
+                <div class="mb-6">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Manajemen Kisi-Kisi PSAS 1</h2>
+                    <p class="text-slate-600 text-sm">Sesuaikan poin-poin kisi-kisi ujian untuk setiap bab.</p>
+                </div>
+
+                <div class="space-y-6">
+                    ${kisi.map((item, idx) => `
+                        <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-200">
+                            <form onsubmit="handleSaveKisi(event, ${idx})" class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-extrabold text-xs rounded-full">${item.chapter}</span>
+                                    <input type="text" id="kisi-title-${idx}" value="${item.title}" class="font-extrabold text-slate-800 text-lg border-b border-transparent hover:border-slate-300 focus:border-sky-500 focus:outline-none flex-1">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 mb-1">Poin Kisi-Kisi (Pisahkan dengan baris baru):</label>
+                                    <textarea id="kisi-points-${idx}" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-medium focus:outline-none focus:border-sky-500">${item.points.join('\n')}</textarea>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow transition-all">
+                                        Simpan Kisi-Kisi ${item.chapter}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function handleSaveKisi(e, idx) {
+            e.preventDefault();
+            const title = document.getElementById(`kisi-title-${idx}`).value;
+            const pointsText = document.getElementById(`kisi-points-${idx}`).value;
+            const points = pointsText.split('\n').filter(p => p.trim() !== '');
+
+            let kisi = JSON.parse(localStorage.getItem('tik_kisi'));
+            kisi[idx].title = title;
+            kisi[idx].points = points;
+            localStorage.setItem('tik_kisi', JSON.stringify(kisi));
+            showToast(`Kisi-kisi ${kisi[idx].chapter} berhasil diperbarui!`);
+            render();
+        }
+
+        // --- ADMIN: STUDENTS MONITOR ---
+        function renderAdminStudents(students) {
+            return `
+                <div class="mb-6 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Monitor Siswa & Leaderboard</h2>
+                        <p class="text-slate-600 text-sm">Pantau aktivitas dan skor seluruh siswa bernuansa islami.</p>
+                    </div>
+                    <button onclick="handleResetLeaderboard()" class="px-4 py-2 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs rounded-xl transition-all">
+                        Reset Poin Leaderboard
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+                                    <th class="p-4">Rank</th>
+                                    <th class="p-4">Nama Siswa</th>
+                                    <th class="p-4">Kelas</th>
+                                    <th class="p-4">Avatar</th>
+                                    <th class="p-4 text-right">Total Poin</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm font-medium">
+                                ${students.map((st, idx) => `
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-4 font-extrabold text-slate-600">#${idx + 1}</td>
+                                        <td class="p-4 font-bold text-slate-800">${st.name}</td>
+                                        <td class="p-4 text-slate-600">${st.class}</td>
+                                        <td class="p-4 text-2xl">${st.avatar}</td>
+                                        <td class="p-4 text-right font-extrabold text-amber-600">${st.score} ⭐</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleResetLeaderboard() {
+            if (confirm("Yakin ingin mereset seluruh skor siswa?")) {
+                localStorage.removeItem('tik_students');
+                initStorage();
+                showToast("Leaderboard berhasil direset.");
+                render();
+            }
+        }
+
+        // Initial Boot
+        window.onload = function() {
+            render();
+        };
+    </script>
+</body>
+</html>
+```
+^^^
