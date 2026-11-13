@@ -104,11 +104,7 @@
         ];
 
         const DEFAULT_LEADERBOARD = [
-            { name: "Ahmad Haidar Naafi'", class: "3 A", score: 1450, avatar: "🐱" },
-            { name: "Bilqis Qurotaayyun", class: "3 B", score: 1380, avatar: "🐼" },
-            { name: "Faaza Mukti Annadhif", class: "3 A", score: 1300, avatar: "🦊" },
-            { name: "Aisyah Humairah", class: "3 C", score: 1250, avatar: "🐰" },
-            { name: "Muhammad Al-Fatih", class: "3 B", score: 1200, avatar: "🦁" }
+            { name: "Galuh Aji Wulandari'", class: "3 A", score: 1450, avatar: "🐱" }
         ];
 
         const DEFAULT_QUESTIONS = {
@@ -349,7 +345,7 @@
                                 <div>
                                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">PIN Akses Guru / Admin</label>
                                     <input type="password" id="input-pin" placeholder="Masukkan PIN Admin" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-indigo-400 focus:outline-none font-medium">
-                                    <p class="text-xs text-slate-400 mt-1">Default PIN: <code class="bg-slate-100 px-1.5 py-0.5 rounded font-bold text-slate-600">admin123</code></p>
+                                    <p class="text-xs text-slate-400 mt-1">Default PIN: <code class="bg-slate-100 px-1.5 py-0.5 rounded font-bold text-slate-600">Isi Password!</code></p>
                                 </div>
                                 <button onclick="handleLoginAdmin()" class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition transform active:scale-95 flex items-center justify-center gap-2 mt-4">
                                     <span>Masuk Panel Admin</span> <i data-lucide="shield-check" class="w-5 h-5"></i>
@@ -416,13 +412,13 @@
 
         function handleLoginAdmin() {
             const pin = document.getElementById('input-pin').value;
-            if (pin === 'admin123') {
+            if (pin === 'admin137') {
                 currentUser = { name: 'Guru Pengampu / Admin', isAdmin: true };
                 localStorage.setItem('tik_current_user', JSON.stringify(currentUser));
                 renderApp();
                 showToast("Berhasil masuk ke Panel Admin!", "success");
             } else {
-                showToast("PIN Admin salah! Gunakan: admin123", "error");
+                showToast("PIN Admin salah!", "error");
             }
         }
 
